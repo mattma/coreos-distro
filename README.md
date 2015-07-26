@@ -120,11 +120,17 @@ Then you can then use the `docker` command from your local shell by setting `DOC
 ## Kick start master
 
 ```bash
-mkdir -p /etc/systemd/system/etcd2.service.d
-# cd /etc/systemd/system/etcd2.service.d
-vi /etc/systemd/system/etcd2.service.d/opt.conf
+sudo mkdir -p /etc/systemd/system/etcd2.service.d
+# this is the example for 1-member etcd cluster
+sudo echo '[Service]
+Environment="ETCD_INITIAL_CLUSTER=%m=$etcd_peer_url"
+' > /etc/systemd/system/etcd2.service.d/initial-cluster.conf
+sudo systemctl daemon-reload
 
-systemctl daemon-reload
+# activate etcd2 service
+systemctl start etcd2
+systemctl enable etcd2
+
 
 # debug
 systemctl cat etcd2
@@ -132,3 +138,7 @@ systemctl start etcd2
 systemctl status etcd2
 journalctl -u etcd2
 ```
+
+## Kick start node
+
+You need to set the correct initial cluster value in user-data before bootstrapping. The value is the same as the one that is set in master machine.
