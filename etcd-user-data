@@ -10,8 +10,6 @@ coreos:
     listen-client-urls: http://0.0.0.0:2379,http://0.0.0.0:4001
     listen-peer-urls: http://$private_ipv4:2380,http://$private_ipv4:7001
     initial-cluster-state: new
-    # replace it with actual names and ips when after bootstrapping
-    initial-cluster: ${NAME1=PRIVATE_IP1,NAME2=PRIVATE_IP2,NAME3=PRIVATE_IP3}
   fleet:
     public-ip: $public_ipv4
   flannel:
