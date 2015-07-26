@@ -6,8 +6,12 @@ require 'fileutils'
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.require_version ">= 1.6.0"
 
-CLOUD_CONFIG_PATH = File.join(File.dirname(__FILE__), "etcd-user-data")
-# CLOUD_CONFIG_PATH = File.join(File.dirname(__FILE__), "user-data")
+MASTER_CONFIG_PATH = File.join(File.dirname(__FILE__), "etcd-user-data")
+NODE_CONFIG_PATH = File.join(File.dirname(__FILE__), "user-data")
+
+# The current ROLE of this CoreOS distro
+# @params "master" or "node". WIll pick the FILE above
+ROLE = 'master'
 
 $num_instances = 1
 
@@ -167,9 +171,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home", :nfs => true, :mount_options => ['nolock,vers=3,udp']
       end
 
-      if File.exist?(CLOUD_CONFIG_PATH)
-        config.vm.provision :file, :source => "#{CLOUD_CONFIG_PATH}", :destination => "/tmp/vagrantfile-user-data"
-        config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
+      if ROLE == "master"
+         system "echo 'Master ROcks'"
+         config.vm.provision :file, :source => "#{MASTER_CONFIG_PATH}", :destination => "/tmp/vagrantfile-user-data"
+         config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
+      else
+         system "echo 'Node myself'"
+         config.vm.provision :file, :source => "#{NODE_CONFIG_PATH}", :destination => "/tmp/vagrantfile-user-data"
+         config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
       end
 
     end
