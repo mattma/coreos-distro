@@ -172,11 +172,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
 
       if ROLE == "master"
-         system "echo 'Master ROcks'"
+         system "echo 'Initializing Kubernetes Master'"
          config.vm.provision :file, :source => "#{MASTER_CONFIG_PATH}", :destination => "/tmp/vagrantfile-user-data"
          config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
       else
-         system "echo 'Node myself'"
+         system "echo 'Initializing Kubernetes Node'"
          config.vm.provision :file, :source => "#{NODE_CONFIG_PATH}", :destination => "/tmp/vagrantfile-user-data"
          config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
       end

@@ -128,15 +128,15 @@ Environment="ETCD_INITIAL_CLUSTER=%m=$etcd_peer_url"
 sudo systemctl daemon-reload
 
 # activate etcd2 service
-systemctl start etcd2
-systemctl enable etcd2
+sudo systemctl start etcd2
+sudo systemctl enable etcd2
 
 
 # debug
-systemctl cat etcd2
-systemctl start etcd2
-systemctl status etcd2
-journalctl -u etcd2
+sudo systemctl cat etcd2
+sudo systemctl start etcd2
+sudo systemctl status etcd2
+sudo journalctl -u etcd2
 ```
 
 ## Kick start node
