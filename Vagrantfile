@@ -6,7 +6,8 @@ require 'fileutils'
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.require_version ">= 1.6.0"
 
-CLOUD_CONFIG_PATH = File.join(File.dirname(__FILE__), "user-data")
+CLOUD_CONFIG_PATH = File.join(File.dirname(__FILE__), "etcd-user-data")
+# CLOUD_CONFIG_PATH = File.join(File.dirname(__FILE__), "user-data")
 
 $num_instances = 1
 
