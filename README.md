@@ -116,3 +116,19 @@ Follow the [Enable Remote API instructions][coreos-enabling-port-forwarding] to 
 Then you can then use the `docker` command from your local shell by setting `DOCKER_HOST`:
 
     export DOCKER_HOST=tcp://localhost:2375
+
+## Kick start master
+
+```bash
+mkdir -p /etc/systemd/system/etcd2.service.d
+# cd /etc/systemd/system/etcd2.service.d
+vi /etc/systemd/system/etcd2.service.d/opt.conf
+
+systemctl daemon-reload
+
+# debug
+systemctl cat etcd2
+systemctl start etcd2
+systemctl status etcd2
+journalctl -u etcd2
+```
