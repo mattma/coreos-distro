@@ -31,3 +31,24 @@ coreos:
 
         [Install]
         WantedBy=sockets.target
+
+write_files:
+  - path: /etc/systemd/system/etcd2.service
+    permissions: 0644
+    owner: root
+    content: |
+      [Install]
+      WantedBy=default.target
+
+      [Unit]
+      Description=etcd2
+      Conflicts=etcd.service
+
+      [Service]
+      User=etcd
+      Environment=ETCD_DATA_DIR=/var/lib/etcd2
+      Environment=ETCD_NAME=%m
+      ExecStart=/usr/bin/etcd2
+      Restart=always
+      RestartSec=10s
+      LimitNOFILE=40000
