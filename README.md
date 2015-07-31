@@ -120,12 +120,10 @@ Then you can then use the `docker` command from your local shell by setting `DOC
 ## Kick start master
 
 ```bash
-sudo mkdir -p /etc/systemd/system/etcd2.service.d
-# this is the example for 1-member etcd cluster
-sudo echo '[Service]
-Environment="ETCD_INITIAL_CLUSTER=%m=$etcd_peer_url"
-' > /etc/systemd/system/etcd2.service.d/initial-cluster.conf
-sudo systemctl daemon-reload
+# 1-member etcd cluster works as a primary data store
+# sudo systemctl daemon-reload
+
+sudo systemctl cat etcd2
 
 # activate etcd2 service
 sudo systemctl start etcd2
@@ -133,8 +131,6 @@ sudo systemctl enable etcd2
 
 
 # debug
-sudo systemctl cat etcd2
-sudo systemctl start etcd2
 sudo systemctl status etcd2
 sudo journalctl -u etcd2
 ```
