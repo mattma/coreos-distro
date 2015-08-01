@@ -119,21 +119,40 @@ Then you can then use the `docker` command from your local shell by setting `DOC
 
 ## Kick start master
 
+Master machine does not bootstrap etcd cluster automatically because each machine doesn't know the address of its peers. You need to set correct [ETCD_INITIAL_CLUSTER](https://github.com/coreos/etcd/blob/master/Documentation/configuration.md#-initial-cluster) value manually to help etcd cluster bootstrap, and enable etcd2.service to auto start.
+
+### One master for etcd cluster
+
 ```bash
-# 1-member etcd cluster works as a primary data store
-# sudo systemctl daemon-reload
-
-sudo systemctl cat etcd2
-
+sudo su
+# get local MachineID, which is used as etcd name
+MachineID=`cat /etc/machine-id`
+# get AdvertisePeerURL in local etcd2.service
+AdvertisePeerURL=`systemctl cat etcd2 | grep ETCD_INITIAL_ADVERTISE_PEER_URLS | sed 's/[="]/ /g' | awk '{print $3}'`
+mkdir -p /etc/systemd/system/etcd2.service.d
+echo "[Service]
+Environment=\"ETCD_INITIAL_CLUSTER=${MachineID}=${AdvertisePeerURL}\"
+"> /etc/systemd/system/etcd2.service.d/initial-cluster.conf
+systemctl daemon-reload
+systemctl cat etcd2
 # activate etcd2 service
-sudo systemctl start etcd2
-sudo systemctl enable etcd2
+systemctl start etcd2
+systemctl enable etcd2
+# ensure etcd2 service is running
+systemctl status etcd2
 
 
 # debug
 sudo systemctl status etcd2
 sudo journalctl -u etcd2
 ```
+
+### 3 masters for etcd cluster
+
+1. Find out MachineID and AdvertisePeerURL of all 3 masters
+2. Build a ETCD_INITIAL_CLUSTER string (`${MachineID_1}=${AdvertisePeerURL_1},${MachineID_2}=${AdvertisePeerURL_2},${MachineID_3}=${AdvertisePeerURL_3}`) that contains all 3 masters
+3. Set ETCD_INITIAL_CLUSTER in each machine as we do for one master case
+4. Enable etcd2 service in each machine as we do for one master case
 
 ## Kick start node
 
