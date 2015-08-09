@@ -168,8 +168,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
 
       # kick start etcd2 service
-      config.vm.provision :file, :source => "#{ETCD_START_PATH}", :destination => "/tmp/etcd_start"
-      config.vm.provision :shell, :inline => "chmod +x /tmp/etcd_start && /tmp/etcd_start", :privileged => true
+      config.vm.provision :file, :source => "#{ETCD_START_PATH}", :destination => "/tmp/etcd-start"
+      config.vm.provision :shell, :inline => "chmod +x /tmp/etcd-start && /tmp/etcd-start", :privileged => true
     else
       system "echo 'Role is Kubernetes Node'"
       config.vm.provision :file, :source => "#{NODE_CONFIG_PATH}", :destination => "/tmp/vagrantfile-user-data"
