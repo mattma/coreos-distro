@@ -169,6 +169,36 @@ exit
 
 4. Enable etcd2 service in each machine as we do for one master case
 
+**Instruction to start master etcd**
+
+```bash
+ROLE=master IP=172.17.8.101 vagrant up
+# if everything is ok, machine name: kube-master should be running
+ROLE=master vagrant status
+# login kube-master machine via ssh
+ROLE=master vagrant ssh
+```
+
 ## Kick start node
 
-You need to set the correct initial cluster value in `user-data` before bootstrapping. The value is the same as the one that is set in master machine.
+You need to set the correct initial cluster value in `user-data` before bootstrapping. The value is the same as the one that is set in master machine. Follow the example below:
+
+```bash
+# ssh into Master etcd machine, copy the value of `ETCD_INITIAL_CLUSTER`
+cat /etc/systemd/system/etcd2.service.d/initial-cluster.conf
+
+# ex: ETCD_INITIAL_CLUSTER=e0100b6a52d049aeacf52b529d13d006=http://172.17.8.101:2380
+
+# open `setup/cloud-init/node-data` file to replace the value in `coreos/etcd2/initial-cluster`. ex:
+initial-cluster: "e0100b6a52d049aeacf52b529d13d006=http://172.17.8.101:2380"
+```
+
+Once setup the initial cluster value to point to master etcd, then start a new node to join the etcd cluster
+
+```bash
+IP=172.17.8.102 NUM=1 vagrant up
+# if everything is ok, machine name: kube-node-01 should be running
+IP=172.17.8.102 NUM=1 vagrant status
+# login kube-node-01 machine via ssh
+IP=172.17.8.102 NUM=1 vagrant ssh
+```
