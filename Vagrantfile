@@ -5,11 +5,20 @@ require 'fileutils'
 Vagrant.require_version ">= 1.6.0"
 
 # The current ROLE of this CoreOS distro
-# @params "master" or "node". WIll pick the FILE above
-$role = ENV['ROLE'] || 'master'
+# @params "master" or "node". load different cloud-init config
+$role = ENV['ROLE'] || 'node'
+
+# Public ip address of the current machine
+$ip = ENV['IP'] || "172.17.8.101"
 
 # Change basename of the VM. Default: "core"
-$INSTANCE_NAME = "kube-%s" % $role
+if $role == "master"
+  $machine_name = "kube-%s" % $role
+else
+  # show the count of the current kube-node-#{count}. ex: kube-node-01
+  $node_number = ENV['NUM'] || 1
+  $machine_name = "kube-%s-%02d" % [$role, $node_number]
+end
 
 # Change the version of CoreOS to be installed. Default: "current"
 # For example, to deploy version 709.0.0, set $image_version="709.0.0"
@@ -26,8 +35,6 @@ $share_home = false
 # Share additional folders to the CoreOS VMs
 # $shared_folders = {'shared/' => '/home/core/shared/'}
 $shared_folders = {}
-
-$IP_ADDR = "172.17.8.101"
 
 # Customize VMs
 $vm_gui = false
@@ -98,7 +105,7 @@ Vagrant.configure($Vagrantfile_api_version) do |config|
     config.vbguest.auto_update = false
   end
 
-  config.vm.define vm_name = "%s" % $INSTANCE_NAME do |config|
+  config.vm.define vm_name = "%s" % $machine_name do |config|
     config.vm.hostname = vm_name
 
     if $enable_serial_logging
@@ -148,7 +155,7 @@ Vagrant.configure($Vagrantfile_api_version) do |config|
       vb.cpus = vm_cpus
     end
 
-    config.vm.network :private_network, ip: $IP_ADDR
+    config.vm.network :private_network, ip: $ip
 
     # Uncomment below to enable NFS for sharing the host machine into the coreos-vagrant VM.
     #config.vm.synced_folder ".", "/home/core/share", id: "core", :nfs => true, :mount_options => ['nolock,vers=3,udp']
