@@ -13,6 +13,7 @@ coreos:
 
   fleet:
     public-ip: $public_ipv4
+    metadata: "role=master"
 
   flannel:
     interface: $public_ipv4

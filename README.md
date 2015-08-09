@@ -177,6 +177,8 @@ ROLE=master IP=172.17.8.100 vagrant up
 ROLE=master vagrant status
 # login kube-master machine via ssh
 ROLE=master vagrant ssh
+
+ROLE=master vagrant destroy -f
 ```
 
 ## Kick start node
@@ -214,4 +216,50 @@ IP=172.17.8.102 NUM=2 vagrant up
 IP=172.17.8.102 NUM=2 vagrant status
 # login kube-node-01 machine via ssh
 IP=172.17.8.102 NUM=2 vagrant ssh
+
+IP=172.17.8.102 NUM=2 vagrant destroy -f
+```
+
+## Fleet installation and configuration
+
+**Running `fleetctl` from external host**
+
+1. [download `fleet` binary](https://github.com/coreos/fleet/releases). make sure you download the version that matches the version of fleet running on the CoreOS cluster.
+
+2. SSH access for a user to at least one host in the cluster
+
+3. ssh-agent running on a user’s machine with the necessary identity
+
+In order to satisfy #2 and #3 above, i added following to `.ssh/config` on the separate machine where I am running `fleetctl`. Vagrant `insecure_private_key` is available in `~/.vagrant.d`, which i have copied to shared directory `/vagrant`.
+
+```bash
+# ~/.ssh/config
+Host core-01
+ User core
+ HostName 172.17.8.100
+ IdentityFile ~/.vagrant.d/insecure_private_key
+```
+
+4. Once the fleetctl binary is installed and communication is established, run following command. required.
+
+```bash
+rm -rf ~/.fleetctl/known_hosts
+vi ~/.ssh/config  #update the HOST name to match $instance_name_prefix in vagrantfile
+rm ~/.vagrant.d/insecure_private_key
+
+vagrant up
+
+# It doesn’t matter which instance you use as the other end of your SSH tunnel,
+export FLEETCTL_TUNNEL=172.17.8.100
+ssh-add  ~/.vagrant.d/insecure_private_key
+fleetctl list-machines
+```
+
+**After reload provision or new setup**
+
+```bash
+rm -rf ~/.fleetctl/known_hosts
+ssh-add  ~/.vagrant.d/insecure_private_key
+export FLEETCTL_TUNNEL=172.17.8.100
+fleetctl list-machines
 ```
