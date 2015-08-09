@@ -161,3 +161,9 @@ fleetctl list-machines
 
 etcdctl ls /
 ```
+
+**Cleanup and Reset cluster**
+
+```bash
+./setup/cleanup
+```

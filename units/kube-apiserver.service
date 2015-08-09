@@ -1,8 +1,8 @@
 [Unit]
 Description=Kubernetes API Server
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
-Requires=etcd2.service
-After=etcd2.service
+Requires=etcd2.service setup-network-environment.service
+After=etcd2.service setup-network-environment.service
 
 [Service]
 # EnvironmentFile=/etc/network-environment
