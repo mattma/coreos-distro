@@ -6,8 +6,8 @@ require 'fileutils'
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.require_version ">= 1.6.0"
 
-MASTER_CONFIG_PATH = File.join(File.dirname(__FILE__), "etcd-user-data")
-NODE_CONFIG_PATH = File.join(File.dirname(__FILE__), "user-data")
+MASTER_CONFIG_PATH = File.join(File.dirname(__FILE__), "setup/cloud-init/master-data")
+NODE_CONFIG_PATH = File.join(File.dirname(__FILE__), "setup/cloud-init/node-data")
 
 ETCD_START_PATH = File.join(File.dirname(__FILE__), "setup/etcd-start")
 
