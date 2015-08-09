@@ -1,0 +1,12 @@
+[Unit]
+Description=flannel is an etcd backed network fabric for containers
+
+[Service]
+ExecStartPre=-/usr/bin/etcdctl \
+  -C http://172.17.8.100:2379 mk /coreos.com/network/config \
+  '{"Network":"172.17.0.0/16","Backend":{"Type":"host-gw"},"SubnetMin": "172.17.1.0", "SubnetMax": "172.17.11.0"}'
+ExecStart=/opt/bin/flanneld --ip-masq --etcd-endpoints http://172.17.8.100:2379
+
+[X-Fleet]
+Global=true
+MachineMetadata=role=node

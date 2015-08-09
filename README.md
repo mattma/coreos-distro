@@ -337,3 +337,11 @@ PLATFORM="darwin"
 wget -q --no-check-certificate -L -O /usr/local/bin/kubectl "https://storage.googleapis.com/kubernetes-release/release/v1.0.1/bin/darwin/amd64/kubectl"
 chmod +x /usr/local/bin/kubectl
 ```
+
+#### Connect to Kubernetes API Server
+
+Once you've located the kube-apiserver set the KUBERNETES_MASTER environment variable, which configures the `kubectl` client use this API server:
+
+```bash
+export KUBERNETES_MASTER="http://172.17.8.100:8080"
+```
