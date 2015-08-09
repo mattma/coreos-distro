@@ -171,4 +171,4 @@ exit
 
 ## Kick start node
 
-You need to set the correct initial cluster value in user-data before bootstrapping. The value is the same as the one that is set in master machine.
+You need to set the correct initial cluster value in `user-data` before bootstrapping. The value is the same as the one that is set in master machine.
