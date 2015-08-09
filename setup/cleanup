@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+IP=172.17.8.101 NUM=1 vagrant destroy -f
+
+IP=172.17.8.102 NUM=2 vagrant destroy -f
+
+ROLE=master vagrant destroy -f
+
+rm -rf ~/.fleetctl/known_hosts
+
+rm -rf ~/.vagrant.d/insecure_private_key
