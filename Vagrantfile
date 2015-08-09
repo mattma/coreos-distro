@@ -11,14 +11,12 @@ NODE_CONFIG_PATH = File.join(File.dirname(__FILE__), "setup/cloud-init/node-data
 
 ETCD_START_PATH = File.join(File.dirname(__FILE__), "setup/etcd-start")
 
-
 # The current ROLE of this CoreOS distro
 # @params "master" or "node". WIll pick the FILE above
-ROLE = 'master'
+$role = ENV['ROLE'] || 'master'
 
 # Change basename of the VM. Default: "core"
-# "coreos-01" through to "coreos-${num_instances}".
-$INSTANCE_NAME = "coreos"
+$INSTANCE_NAME = "kube-%s" % $role
 
 # Change the version of CoreOS to be installed. Default: "current"
 # For example, to deploy version 709.0.0, set $image_version="709.0.0"
@@ -162,7 +160,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home", :nfs => true, :mount_options => ['nolock,vers=3,udp']
     end
 
-    if ROLE == "master"
+    if $role == "master"
       system "echo 'Role is Kubernetes Master'"
       config.vm.provision :file, :source => "#{MASTER_CONFIG_PATH}", :destination => "/tmp/vagrantfile-user-data"
       config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
