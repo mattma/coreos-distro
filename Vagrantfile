@@ -2,14 +2,7 @@
 # vi: set ft=ruby :
 
 require 'fileutils'
-
-VAGRANTFILE_API_VERSION = "2"
 Vagrant.require_version ">= 1.6.0"
-
-MASTER_CONFIG_PATH = File.join(File.dirname(__FILE__), "setup/cloud-init/master-data")
-NODE_CONFIG_PATH = File.join(File.dirname(__FILE__), "setup/cloud-init/node-data")
-
-ETCD_START_PATH = File.join(File.dirname(__FILE__), "setup/etcd-start")
 
 # The current ROLE of this CoreOS distro
 # @params "master" or "node". WIll pick the FILE above
@@ -57,6 +50,13 @@ $enable_serial_logging = false
 #   export DOCKER_HOST='tcp://127.0.0.1:2375'
 #$expose_docker_tcp=2375
 
+$Vagrantfile_api_version = "2"
+
+# load up cloud-init files, and startup bash scripts
+$master_data_path = File.join(File.dirname(__FILE__), "setup/cloud-init/master-data")
+$node_data_path = File.join(File.dirname(__FILE__), "setup/cloud-init/node-data")
+$etcd_start_script_path = File.join(File.dirname(__FILE__), "setup/etcd-start")
+
 # Use old vb_xxx config variables when set
 def vm_gui
   $vb_gui.nil? ? $vm_gui : $vb_gui
@@ -70,7 +70,7 @@ def vm_cpus
   $vb_cpus.nil? ? $vm_cpus : $vb_cpus
 end
 
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+Vagrant.configure($Vagrantfile_api_version) do |config|
   # always use Vagrants insecure key
   config.ssh.insert_key = false
 
@@ -162,15 +162,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     if $role == "master"
       system "echo 'Role is Kubernetes Master'"
-      config.vm.provision :file, :source => "#{MASTER_CONFIG_PATH}", :destination => "/tmp/vagrantfile-user-data"
+      config.vm.provision :file, :source => $master_data_path, :destination => "/tmp/vagrantfile-user-data"
       config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
 
       # kick start etcd2 service
-      config.vm.provision :file, :source => "#{ETCD_START_PATH}", :destination => "/tmp/etcd-start"
+      config.vm.provision :file, :source => $etcd_start_script_path, :destination => "/tmp/etcd-start"
       config.vm.provision :shell, :inline => "chmod +x /tmp/etcd-start && /tmp/etcd-start", :privileged => true
     else
       system "echo 'Role is Kubernetes Node'"
-      config.vm.provision :file, :source => "#{NODE_CONFIG_PATH}", :destination => "/tmp/vagrantfile-user-data"
+      config.vm.provision :file, :source => $node_data_path, :destination => "/tmp/vagrantfile-user-data"
       config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
     end
   end
