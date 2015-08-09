@@ -136,8 +136,8 @@ Environment=\"ETCD_INITIAL_CLUSTER=${MachineID}=${AdvertisePeerURL}\"
 systemctl daemon-reload
 systemctl cat etcd2
 # activate etcd2 service
-systemctl start etcd2
 systemctl enable etcd2
+systemctl start etcd2
 # ensure etcd2 service is running
 systemctl status etcd2
 

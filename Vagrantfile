@@ -9,6 +9,9 @@ Vagrant.require_version ">= 1.6.0"
 MASTER_CONFIG_PATH = File.join(File.dirname(__FILE__), "etcd-user-data")
 NODE_CONFIG_PATH = File.join(File.dirname(__FILE__), "user-data")
 
+ETCD_START_PATH = File.join(File.dirname(__FILE__), "setup/etcd-start")
+
+
 # The current ROLE of this CoreOS distro
 # @params "master" or "node". WIll pick the FILE above
 ROLE = 'master'
@@ -160,14 +163,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     if ROLE == "master"
-       system "echo 'Role is Kubernetes Master'"
-       config.vm.provision :file, :source => "#{MASTER_CONFIG_PATH}", :destination => "/tmp/vagrantfile-user-data"
-       config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
-    else
-       system "echo 'Role is Kubernetes Node'"
-       config.vm.provision :file, :source => "#{NODE_CONFIG_PATH}", :destination => "/tmp/vagrantfile-user-data"
-       config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
-    end
+      system "echo 'Role is Kubernetes Master'"
+      config.vm.provision :file, :source => "#{MASTER_CONFIG_PATH}", :destination => "/tmp/vagrantfile-user-data"
+      config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
 
+      # kick start etcd2 service
+      config.vm.provision :file, :source => "#{ETCD_START_PATH}", :destination => "/tmp/etcd_start"
+      config.vm.provision :shell, :inline => "chmod +x /tmp/etcd_start && /tmp/etcd_start", :privileged => true
+    else
+      system "echo 'Role is Kubernetes Node'"
+      config.vm.provision :file, :source => "#{NODE_CONFIG_PATH}", :destination => "/tmp/vagrantfile-user-data"
+      config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
+    end
   end
 end
