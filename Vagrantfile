@@ -167,8 +167,8 @@ Vagrant.configure($Vagrantfile_api_version) do |config|
       config.vm.synced_folder ENV['HOME'], ENV['HOME'], id: "home", :nfs => true, :mount_options => ['nolock,vers=3,udp']
     end
 
+    system "echo '\n********\nCurrent Role: #{$role} \nMachine Name: #{$machine_name}\n********\n'"
     if $role == "master"
-      system "echo 'Role is Kubernetes Master'"
       config.vm.provision :file, :source => $master_data_path, :destination => "/tmp/vagrantfile-user-data"
       config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
 
@@ -176,7 +176,6 @@ Vagrant.configure($Vagrantfile_api_version) do |config|
       config.vm.provision :file, :source => $etcd_start_script_path, :destination => "/tmp/etcd-start"
       config.vm.provision :shell, :inline => "chmod +x /tmp/etcd-start && /tmp/etcd-start", :privileged => true
     else
-      system "echo 'Role is Kubernetes Node'"
       config.vm.provision :file, :source => $node_data_path, :destination => "/tmp/vagrantfile-user-data"
       config.vm.provision :shell, :inline => "mv /tmp/vagrantfile-user-data /var/lib/coreos-vagrant/", :privileged => true
     end

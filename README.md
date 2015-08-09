@@ -172,7 +172,7 @@ exit
 **Instruction to start master etcd**
 
 ```bash
-ROLE=master IP=172.17.8.101 vagrant up
+ROLE=master IP=172.17.8.100 vagrant up
 # if everything is ok, machine name: kube-master should be running
 ROLE=master vagrant status
 # login kube-master machine via ssh
@@ -196,9 +196,22 @@ initial-cluster: "e0100b6a52d049aeacf52b529d13d006=http://172.17.8.101:2380"
 Once setup the initial cluster value to point to master etcd, then start a new node to join the etcd cluster
 
 ```bash
-IP=172.17.8.102 NUM=1 vagrant up
+IP=172.17.8.101 NUM=1 vagrant up
 # if everything is ok, machine name: kube-node-01 should be running
-IP=172.17.8.102 NUM=1 vagrant status
+IP=172.17.8.101 NUM=1 vagrant status
 # login kube-node-01 machine via ssh
-IP=172.17.8.102 NUM=1 vagrant ssh
+IP=172.17.8.101 NUM=1 vagrant ssh
+# if do not use it anymore, simply remove the machine
+IP=172.17.8.101 NUM=1 vagrant destroy -f
+```
+
+Start a second node to join the etcd cluster, so it could perform `etcdctl` command
+
+
+```bash
+IP=172.17.8.102 NUM=2 vagrant up
+# if everything is ok, machine name: kube-node-01 should be running
+IP=172.17.8.102 NUM=2 vagrant status
+# login kube-node-01 machine via ssh
+IP=172.17.8.102 NUM=2 vagrant ssh
 ```
