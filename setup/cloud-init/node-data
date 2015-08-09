@@ -38,3 +38,7 @@ coreos:
 
         [Install]
         WantedBy=sockets.target
+
+  update:
+    group: alpha
+    reboot-strategy: off

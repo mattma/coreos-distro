@@ -37,6 +37,10 @@ coreos:
         [Install]
         WantedBy=sockets.target
 
+  update:
+    group: alpha
+    reboot-strategy: off
+
 write_files:
   - path: /etc/systemd/system/etcd2.service
     permissions: 0644
