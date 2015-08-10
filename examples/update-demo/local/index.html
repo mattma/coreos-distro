@@ -1,0 +1,73 @@
+<html ng-app>
+<head>
+  <script src="angular.min.js"></script>
+  <script src="script.js"></script>
+  <style type="text/css" media="screen">
+    img {
+      height: 100px;
+      width: 100px;
+      float: right;
+      background-size: 100px 100px;
+      background-color: black;
+      margin-left: 10px;
+      border: 1px solid rgb(151,151,151);
+    }
+    ul {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .pod {
+      font-family: arial, helvetica, sans-serif;
+      border: 1px solid lightgray;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 10px;
+      display: inline-block;
+      background-color: rgb(231,231,231);
+    }
+    strong {
+      font-size: 14px;
+      color: rgb(131,131,131);
+    }
+    span {
+      font-size: 18px;
+      color: black;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    .red {
+      color: red;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body ng-controller="ButtonsCtrl">
+  <div ng-repeat="server in servers" class="pod">
+    <img src="/api/v1/proxy/namespaces/default/pods/{{server.podId}}/{{server.image}}" height="100px" width="100px" />
+    <ul>
+      <li>
+        <strong>Pod ID:</strong> <span class='red'>{{server.podId}}</span>
+      </li>
+      <li>
+        <strong>Host IP:</strong> <span class='red'>{{server.hostIp}}</span>
+      </li>
+      <li>
+        <strong>Public IP:</strong> <span>{{server.publicIp}}</span>
+      </li>
+      <li>
+        <strong>Status:</strong> <span>{{server.status}}</span>
+      </li>
+      <li>
+        <strong>Image:</strong> <span>{{server.dockerImage}}</span>
+      </li>
+      <li>
+        <strong>Labels:</strong>
+        <ul>
+          <li ng-repeat="(key,value) in server.labels"><span>{{key}}={{value}}</span></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
