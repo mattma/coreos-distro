@@ -1,4 +1,4 @@
-This example demonstrates the usage of Kubernetes to perform a live update on a running group of pods.
+This example demonstrates the usage of Kubernetes to perform a live update on a running group of pods. It is based on [Update-demo](https://github.com/GoogleCloudPlatform/kubernetes/tree/master/docs/user-guide/update-demo)
 
 1. Turn up the UX for the demo. Start the proxy service.
 
