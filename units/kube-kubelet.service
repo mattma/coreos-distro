@@ -13,7 +13,7 @@ ExecStartPre=/usr/bin/chmod +x /opt/bin/kubelet
 ExecStart=/opt/bin/kubelet \
   --address=0.0.0.0 \
   --port=10250 \
-  --hostname_override=${DEFAULT_IPV4} \
+  --hostname_override=$public_ipv4 \
   --api_servers=http://172.17.8.100:8080 \
   --allow_privileged=true \
   --logtostderr=true \
@@ -21,6 +21,7 @@ ExecStart=/opt/bin/kubelet \
   --healthz_port=10248
 Restart=always
 RestartSec=10
+WorkingDirectory=/root/
 
 [X-Fleet]
 Global=true
