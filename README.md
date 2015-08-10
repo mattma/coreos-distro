@@ -181,9 +181,6 @@ kubectl create -f setup/dns/dns-service.yaml
 ```bash
 fleetctl start units/kube-kubelet.service
 fleetctl start units/kube-proxy.service
-
-# Register Worker Nodes
-fleetctl start units/kube-register.service
 ```
 
 
