@@ -5,7 +5,6 @@ Requires=setup-network-environment.service
 After=setup-network-environment.service
 
 [Service]
-EnvironmentFile=/etc/leader
 ExecStartPre=-/usr/bin/rm /opt/bin/kube-proxy
 ExecStartPre=/usr/bin/curl -L -o /opt/bin/kube-proxy -z /opt/bin/kube-proxy https://storage.googleapis.com/kubernetes-release/release/v1.0.1/bin/linux/amd64/kube-proxy
 ExecStartPre=/usr/bin/chmod +x /opt/bin/kube-proxy
