@@ -1,10 +1,20 @@
 [Unit]
 Description=flannel is an etcd backed network fabric for containers
+Documentation=https://github.com/coreos/flannel
+Requires=etcd2.service
+After=etcd2.service
 
 [Service]
+ExecStartPre=-/usr/bin/mkdir -p /opt/bin
+ExecStartPre=-/usr/bin/rm /opt/bin/flanneld
+ExecStartPre=curl -L https://github.com/coreos/flannel/releases/download/v0.5.2/flannel-0.5.2-linux-amd64.tar.gz -o flannel-0.5.2.tar.gz
+ExecStartPre=tar -xvzf flannel-0.5.2.tar.gz
+ExecStartPre=mv ./flannel-0.5.2/flanneld /opt/bin/flanneld
+ExecStartPre=/usr/bin/chmod +x /opt/bin/flanneld
+ExecStartPre=rm -rf flannel-0.5.2 flannel-0.5.2.tar.gz
 ExecStartPre=-/usr/bin/etcdctl \
   -C http://172.17.8.100:2379 mk /coreos.com/network/config \
-  '{"Network":"172.17.0.0/16","Backend":{"Type":"host-gw"},"SubnetMin": "172.17.1.0", "SubnetMax": "172.17.11.0"}'
+  '{"Network":"10.244.0.0/16", "Backend": {"Type": "vxlan"}}'
 ExecStart=/opt/bin/flanneld --ip-masq --etcd-endpoints http://172.17.8.100:2379
 
 [X-Fleet]

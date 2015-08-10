@@ -10,10 +10,11 @@ ExecStartPre=-/usr/bin/rm /opt/bin/kube-proxy
 ExecStartPre=/usr/bin/curl -L -o /opt/bin/kube-proxy -z /opt/bin/kube-proxy https://storage.googleapis.com/kubernetes-release/release/v1.0.1/bin/linux/amd64/kube-proxy
 ExecStartPre=/usr/bin/chmod +x /opt/bin/kube-proxy
 ExecStart=/opt/bin/kube-proxy \
-  --master=http://${LEADER_ENDPOINT}:8080 \
+  --master=http://172.17.8.100:8080 \
   --logtostderr=true
 Restart=always
 RestartSec=10
 
 [X-Fleet]
 Global=true
+MachineMetadata=role=node

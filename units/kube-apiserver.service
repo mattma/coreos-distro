@@ -5,7 +5,7 @@ Requires=etcd2.service setup-network-environment.service
 After=etcd2.service setup-network-environment.service
 
 [Service]
-# EnvironmentFile=/etc/network-environment
+EnvironmentFile=/etc/network-environment
 ExecStartPre=-/usr/bin/mkdir -p /opt/bin
 ExecStartPre=-/usr/bin/rm /opt/bin/kube-apiserver
 ExecStartPre=/usr/bin/curl -L -o /opt/bin/kube-apiserver -z /opt/bin/kube-apiserver https://storage.googleapis.com/kubernetes-release/release/v1.0.1/bin/linux/amd64/kube-apiserver
@@ -16,7 +16,7 @@ ExecStart=/opt/bin/kube-apiserver \
   --insecure_port=8080 \
   --kubelet_https=true \
   --service-cluster-ip-range=172.22.0.0/16 \
-  --etcd_servers=http://127.0.0.1:4001 \
+  --etcd_servers=http://172.17.8.100:4001 \
   --logtostderr=true
 Restart=always
 RestartSec=10

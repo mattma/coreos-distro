@@ -167,3 +167,23 @@ etcdctl ls /
 ```bash
 ./setup/cleanup
 ```
+
+**Initialize Kubernetes Control Plane**
+
+```bash
+fleetctl submit units/kube-apiserver.service
+fleetctl start units/kube-apiserver.service
+
+fleetctl start units/kube-controller-manager.service
+fleetctl start units/kube-scheduler.service
+```
+
+**Initialize Kubernetes Node worker**
+
+```bash
+fleetctl start units/kube-kubelet.service
+fleetctl start units/kube-proxy.service
+
+# Register Worker Nodes
+fleetctl start units/kube-register.service
+```

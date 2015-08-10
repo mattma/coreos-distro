@@ -14,7 +14,7 @@ ExecStartPre=/usr/bin/chmod +x /opt/bin/kube-register
 ExecStart=/opt/bin/kube-register \
   --metadata="region=us-west-2" \
   --fleet-endpoint=unix:///var/run/fleet.sock \
-  --api-endpoint=http://127.0.0.1:8080 \
+  --api-endpoint=http://172.17.8.100:8080 \
   --healthz-port=10248
 Restart=always
 RestartSec=10
