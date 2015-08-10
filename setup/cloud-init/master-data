@@ -22,6 +22,14 @@ coreos:
     - name: fleet.service
       command: start
 
+    - name: rpcbind.service
+      enable: true
+      command: start
+
+    - name: rpc-statd.service
+      enable: true
+      command: start
+
     - name: setup-network-environment.service
       command: start
       content: |

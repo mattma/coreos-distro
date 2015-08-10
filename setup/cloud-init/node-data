@@ -8,7 +8,7 @@ coreos:
     proxy: on
     # replace it with actual names and ips when before bootstrapping
     # initial-cluster: ${NAME1=PRIVATE_IP1,NAME2=PRIVATE_IP2,NAME3=PRIVATE_IP3}
-    initial-cluster: "baed86598f124cde9ba6b7859ad1a0cb=http://172.17.8.100:2380"
+    initial-cluster: "d5d6528d94c14992a49f3f2de165f366=http://172.17.8.100:2380"
 
   fleet:
     public-ip: $public_ipv4
@@ -22,6 +22,14 @@ coreos:
       command: start
 
     - name: fleet.service
+      command: start
+
+    - name: rpcbind.service
+      enable: true
+      command: start
+
+    - name: rpc-statd.service
+      enable: true
       command: start
 
     - name: setup-network-environment.service

@@ -171,11 +171,15 @@ etcdctl ls /
 **Initialize Kubernetes Control Plane**
 
 ```bash
-fleetctl submit units/kube-apiserver.service
+fleetctl start units/flannel.service
 fleetctl start units/kube-apiserver.service
 
 fleetctl start units/kube-controller-manager.service
 fleetctl start units/kube-scheduler.service
+
+# start dns service. SkyDns
+kubectl create -f setup/dns/dns-controller.yaml
+kubectl create -f setup/dns/dns-service.yaml
 ```
 
 **Initialize Kubernetes Node worker**
