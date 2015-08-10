@@ -162,12 +162,6 @@ fleetctl list-machines
 etcdctl ls /
 ```
 
-**Cleanup and Reset cluster**
-
-```bash
-./setup/cleanup
-```
-
 **Initialize Kubernetes Control Plane**
 
 ```bash
@@ -190,4 +184,11 @@ fleetctl start units/kube-proxy.service
 
 # Register Worker Nodes
 fleetctl start units/kube-register.service
+```
+
+
+**Warning: Cleanup and Reset cluster**
+
+```bash
+./setup/cleanup
 ```
