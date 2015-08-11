@@ -128,7 +128,7 @@ ROLE=master IP=172.17.8.100 vagrant up
 
 ROLE=master vagrant ssh -c 'cat /etc/systemd/system/etcd2.service.d/initial-cluster.conf'
 # open `setup/cloud-init/node-data` file to replace the value in `coreos/etcd2/initial-cluster`. ex:
-initial-cluster: "e0100b6a52d049aeacf52b529d13d006=http://172.17.8.101:2380"
+initial-cluster: "e0100b6a52d049aeacf52b529d13d006=http://172.17.8.100:2380"
 ```
 
 Find more [details](./docs/start-master-and-node-machine.md)
@@ -168,6 +168,8 @@ etcdctl ls /
 fleetctl start units/flannel.service
 
 fleetctl start units/kube-apiserver.service
+
+# Wait for `kube-apiserver.service` fully up and running
 fleetctl start units/kube-controller-manager.service
 fleetctl start units/kube-scheduler.service
 

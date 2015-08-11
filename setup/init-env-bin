@@ -42,6 +42,12 @@ echo ""
 echo "######## Copy and paste environment variables"
 echo ""
 
+echo "### One-Liner"
+echo "ssh-add  ~/.vagrant.d/insecure_private_key && export FLEETCTL_TUNNEL=$IP && export ETCDCTL_PEERS=http://$IP:4001 && export KUBERNETES_MASTER=http://$IP:8080"
+echo "########"
+
+echo ""
+echo "### TL;DR"
 echo "ssh-add  ~/.vagrant.d/insecure_private_key"
 echo ""
 
