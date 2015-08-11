@@ -1,6 +1,6 @@
 [Unit]
 Description=Kubernetes API Server
-Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes,http://kubernetes.io/v1.0/docs/admin/kube-apiserver.html
 Requires=etcd2.service setup-network-environment.service
 After=etcd2.service setup-network-environment.service
 
@@ -15,9 +15,13 @@ ExecStart=/opt/bin/kube-apiserver \
   --insecure_bind_address=0.0.0.0 \
   --insecure_port=8080 \
   --kubelet_https=true \
+  --secure_port=6443 \
   --service-cluster-ip-range=10.100.0.0/16 \
-  --etcd_servers=http://172.17.8.100:2379 \
+  --etcd_servers=http://127.0.0.1:2379,http://127.0.0.1:4001 \
+  --cors_allowed_origins=.* \
   --logtostderr=true
+  --runtime_config=api/v1
+
 Restart=always
 RestartSec=10
 

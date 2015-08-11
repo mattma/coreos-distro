@@ -4,7 +4,6 @@ Documentation=https://github.com/coreos/flannel
 After=network-online.target
 Wants=network-online.target
 
-
 [Service]
 Type=notify
 ExecStartPre=-/usr/bin/mkdir -p /opt/bin
@@ -13,7 +12,6 @@ ExecStartPre=/usr/bin/chmod +x /opt/bin/flanneld
 ExecStartPre=-/usr/bin/etcdctl mk /coreos.com/network/config \
   '{"Network":"10.244.0.0/16", "Backend": {"Type": "vxlan"}}'
 ExecStart=/opt/bin/flanneld -etcd-endpoints="http://172.17.8.100:2379,http://172.17.8.100:4001"
-
 
 [X-Fleet]
 Global=true

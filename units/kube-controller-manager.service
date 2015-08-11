@@ -1,6 +1,6 @@
 [Unit]
 Description=Kubernetes Controller Manager
-Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes,http://kubernetes.io/v1.0/docs/admin/kube-controller-manager.html
 Requires=kube-apiserver.service
 After=kube-apiserver.service
 
@@ -11,7 +11,9 @@ ExecStartPre=/usr/bin/curl -L -o /opt/bin/kube-controller-manager -z /opt/bin/ku
 ExecStartPre=/usr/bin/chmod +x /opt/bin/kube-controller-manager
 ExecStart=/opt/bin/kube-controller-manager \
   --master=127.0.0.1:8080 \
+  --pod_eviction_timeout=30s \
   --logtostderr=true
+
 Restart=always
 RestartSec=10
 

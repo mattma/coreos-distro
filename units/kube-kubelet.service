@@ -1,23 +1,33 @@
 [Unit]
 Description=Kubernetes Kubelet
-Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes,http://kubernetes.io/v1.0/docs/admin/kubelet.html
 Requires=setup-network-environment.service
 After=setup-network-environment.service
 
 [Service]
 EnvironmentFile=/etc/network-environment
+ExecStartPre=-/usr/bin/mkdir -p /opt/bin
 ExecStartPre=-/usr/bin/rm /opt/bin/kubelet
 ExecStartPre=/usr/bin/curl -L -o /opt/bin/kubelet -z /opt/bin/kubelet https://storage.googleapis.com/kubernetes-release/release/v1.0.1/bin/linux/amd64/kubelet
 ExecStartPre=/usr/bin/chmod +x /opt/bin/kubelet
+ExecStartPre=/usr/bin/mkdir -p /opt/kubernetes/manifests/
+
 ExecStart=/opt/bin/kubelet \
   --address=0.0.0.0 \
   --port=10250 \
   --hostname_override=${ETH1_IPV4} \
   --api_servers=http://172.17.8.100:8080 \
   --allow_privileged=true \
+  # cluster_dns matches `setup/dns/dns-service.yaml` @ `spec.clusterIP`
+  --cluster_dns=10.100.0.10 \
+  # cluster_dns matches `setup/dns/dns-controller.yaml` @ skydns container domain flag
+  --cluster_domain=cluster.local \
   --logtostderr=true \
+  --config=/opt/kubernetes/manifests/ \
+  --cadvisor_port=4194 \
   --healthz_bind_address=0.0.0.0 \
   --healthz_port=10248
+
 Restart=always
 RestartSec=10
 WorkingDirectory=/root/
