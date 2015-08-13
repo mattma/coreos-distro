@@ -165,7 +165,8 @@ etcdctl ls /
 **Initialize Kubernetes Control Plane**
 
 ```bash
-fleetctl start units/flannel.service
+fleetctl start units/flanneld.service
+fleetctl start units/docker.service
 
 fleetctl start units/kube-apiserver.service
 
