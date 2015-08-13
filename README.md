@@ -159,7 +159,17 @@ Find more [details](./docs/setup-environment-and-binary.md)
 ```bash
 fleetctl list-machines
 
+# Validating your cluster
+# E.G: 23ddf77271a20473: name=9d793d4a68b8422782f3f582cc3ed0d6 peerURLs=http://172.17.8.100:2380 clientURLs=http://172.17.8.100:2379
+etcdctl member list
+
+# member 23ddf77271a20473 is healthy
+etcdctl cluster-health
 etcdctl ls /
+
+# set value on one node, get value on another node
+etcdctl set foo 'bar'
+etcdctl get foo
 ```
 
 **Initialize Kubernetes Control Plane**
