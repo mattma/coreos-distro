@@ -71,7 +71,7 @@ spec:
 You can use:
 
 ```console
-$ kubectl get pods --selector=name=nginx,type=frontend
+kubectl get pods --selector=name=nginx,type=frontend
 ```
 
 to list pods that match this selector.  Verify that the list matches the Pods that you expect to provide your Service.
@@ -81,6 +81,15 @@ have the right ports exposed.  If your service has a `containerPort` specified, 
 selected don't have that port listed, then they won't be added to the endpoints list.
 
 Verify that the pod's `containerPort` matches up with the Service's `containerPort`
+
+- Running commands in a Pod
+
+```bash
+# run a command in an interactive shell Pod-like context
+kubectl exec -it <pod_name> sh
+# run a command in a Pod-like context
+kubectl exec <pod_name> -- <COMMAND>
+```
 
 #### Network traffic is not forwarded
 
