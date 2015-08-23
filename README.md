@@ -175,23 +175,30 @@ etcdctl get foo
 **Initialize Kubernetes Control Plane**
 
 ```bash
-fleetctl start units/flanneld.service
-fleetctl start units/docker.service
-
 fleetctl start units/kube-apiserver.service
+# check the cluster info
+kubectl cluster-info
 
 # Wait for `kube-apiserver.service` fully up and running
 fleetctl start units/kube-controller-manager.service
 fleetctl start units/kube-scheduler.service
+```
 
+Deploy SkyDNS.
+
+```bash
 # start dns service. SkyDns
 kubectl create -f setup/dns/dns-controller.yaml
 kubectl create -f setup/dns/dns-service.yaml
 ```
 
+
 **Initialize Kubernetes Node worker**
 
 ```bash
+fleetctl start units/flanneld.service
+fleetctl start units/docker.service
+
 fleetctl start units/kube-proxy.service
 fleetctl start units/kube-kubelet.service
 ```
