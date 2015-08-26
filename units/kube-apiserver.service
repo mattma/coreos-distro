@@ -6,11 +6,13 @@ After=etcd2.service setup-network-environment.service
 
 [Service]
 EnvironmentFile=/etc/network-environment
-ExecStartPre=-/usr/bin/mkdir -p /opt/bin
-ExecStartPre=-/usr/bin/rm /opt/bin/kube-apiserver
-ExecStartPre=/usr/bin/curl -L -o /opt/bin/kube-apiserver -z /opt/bin/kube-apiserver https://storage.googleapis.com/kubernetes-release/release/v1.0.1/bin/linux/amd64/kube-apiserver
-ExecStartPre=/usr/bin/chmod +x /opt/bin/kube-apiserver
-ExecStart=/opt/bin/kube-apiserver \
+ExecStartPre=-/usr/bin/docker kill kube-apiserver
+ExecStartPre=-/usr/bin/docker rm kube-apiserver
+ExecStartPre=/usr/bin/docker pull mattma/kube-apiserver:1.0.1
+ExecStart=/usr/bin/docker run \
+  --net=host \
+  --name kube-apiserver \
+  mattma/kube-apiserver:1.0.1 \
   --allow_privileged=true \
   --insecure_bind_address=0.0.0.0 \
   --insecure_port=8080 \
@@ -21,7 +23,6 @@ ExecStart=/opt/bin/kube-apiserver \
   --cors_allowed_origins=.* \
   --logtostderr=true
   --runtime_config=api/v1
-
 Restart=always
 RestartSec=10
 
