@@ -6,23 +6,24 @@ After=etcd2.service setup-network-environment.service
 
 [Service]
 EnvironmentFile=/etc/network-environment
+EnvironmentFile=/etc/sysconfig/kubernetes-config
 ExecStartPre=-/usr/bin/docker kill kube-apiserver
 ExecStartPre=-/usr/bin/docker rm kube-apiserver
-ExecStartPre=/usr/bin/docker pull mattma/kube-apiserver:1.0.1
+ExecStartPre=/usr/bin/docker pull mattma/kube-apiserver:${KUBERNETES_VERSION}
 ExecStart=/usr/bin/docker run \
   --net=host \
   --name kube-apiserver \
-  mattma/kube-apiserver:1.0.1 \
+  mattma/kube-apiserver:${KUBERNETES_VERSION} \
   --allow_privileged=true \
-  --insecure_bind_address=0.0.0.0 \
-  --insecure_port=8080 \
+  --insecure_bind_address=${INSECURE_BIND_ADDRESS} \
+  --insecure_port=${INSECURE_PORT} \
   --kubelet_https=true \
-  --secure_port=6443 \
-  --service-cluster-ip-range=10.100.0.0/16 \
-  --etcd_servers=http://127.0.0.1:2379,http://127.0.0.1:4001 \
-  --cors_allowed_origins=.* \
+  --secure_port=${SECURE_PORT} \
+  --service-cluster-ip-range=${SERVICE_CLUSTER_IP_RANGE} \
+  --etcd_servers=http://127.0.0.1:${ETCD_SERVER_PORT_1},http://127.0.0.1:${ETCD_SERVER_PORT_2} \
+  --cors_allowed_origins=${CORS_ALLOWED_ORIGINS} \
   --logtostderr=true
-  --runtime_config=api/v1
+  --runtime_config=${RUNTIME_CONFIG}
 Restart=always
 RestartSec=10
 

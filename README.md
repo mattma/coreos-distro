@@ -228,3 +228,4 @@ fleetctl start docker-gc
 ```
 
 **[Awesome Docs on Systemd](https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files)**
+**[Write Systemd unit files](http://fedoraproject.org/wiki/Packaging%3aSystemd#Unit_Files)**
