@@ -204,8 +204,27 @@ fleetctl start units/kube-kubelet.service
 ```
 
 
+**Docker containers and images GC**
+
+Rule 1: Containers that exited more than an hour ago are removed.
+Rule 2: Images that don't belong to any remaining container after that are removed.
+
+```bash
+fleetctl submit units/docker-gc.service
+fleetctl start docker-gc
+
+# after it started, it will be in `inactive` state and `SUB=dead`
+# it needs to be unloaded from the current `fleetctl list-units`
+fleetctl unload docker-gc
+# run `fleetctl list-unit-files` should still contain `docker-gc.service`
+fleetctl start docker-gc
+```
+
+
 **Warning: Cleanup and Reset cluster**
 
 ```bash
 ./setup/cleanup
 ```
+
+**[Awesome Docs on Systemd](https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files)**

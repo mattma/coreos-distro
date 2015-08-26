@@ -1,0 +1,22 @@
+[Unit]
+Description=Docker Garbage Collection
+Documentation=https://github.com/spotify/docker-gc
+Documentation=https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files
+
+[Service]
+Type=oneshot
+ExecStartPre=-/usr/bin/docker kill docker-gc
+ExecStartPre=-/usr/bin/docker rm docker-gc
+ExecStartPre=/usr/bin/docker pull mattma/docker-gc
+ExecStart=/usr/bin/docker run \
+  --name docker-gc \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /etc:/etc \
+  mattma/docker-gc
+
+[Install]
+WantedBy=multi-user.target
+
+[X-Fleet]
+Global=true
+MachineMetadata=role=node
