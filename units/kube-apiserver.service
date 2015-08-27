@@ -7,13 +7,11 @@ After=etcd2.service setup-network-environment.service
 [Service]
 EnvironmentFile=/etc/network-environment
 EnvironmentFile=/etc/sysconfig/kubernetes-config
-ExecStartPre=-/usr/bin/docker kill kube-apiserver
-ExecStartPre=-/usr/bin/docker rm kube-apiserver
-ExecStartPre=/usr/bin/docker pull mattma/kube-apiserver:${KUBERNETES_VERSION}
-ExecStart=/usr/bin/docker run \
-  --net=host \
-  --name kube-apiserver \
-  mattma/kube-apiserver:${KUBERNETES_VERSION} \
+ExecStartPre=-/usr/bin/mkdir -p /opt/bin
+ExecStartPre=-/usr/bin/rm /opt/bin/kube-apiserver
+ExecStartPre=/usr/bin/curl -L -o /opt/bin/kube-apiserver -z /opt/bin/kube-apiserver https://storage.googleapis.com/kubernetes-release/release/v${KUBERNETES_VERSION}/bin/linux/amd64/kube-apiserver
+ExecStartPre=/usr/bin/chmod +x /opt/bin/kube-apiserver
+ExecStart=/opt/bin/kube-apiserver \
   --allow_privileged=true \
   --insecure_bind_address=${INSECURE_BIND_ADDRESS} \
   --insecure_port=${INSECURE_PORT} \
