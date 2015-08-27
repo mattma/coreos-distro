@@ -8,7 +8,7 @@ coreos:
     proxy: on
     # replace it with actual names and ips when before bootstrapping
     # initial-cluster: ${NAME1=PRIVATE_IP1,NAME2=PRIVATE_IP2,NAME3=PRIVATE_IP3}
-    initial-cluster: "39a5f5c5963b490b9fcd80f4cefd750e=http://172.17.8.100:2380"
+    initial-cluster: "4214425e293d4fecbb26fcd3b30ca60a=http://172.17.8.100:2380"
 
   fleet:
     public-ip: $public_ipv4
@@ -88,4 +88,4 @@ write_files:
       CLUSTER_DNS=10.100.0.10
       CLUSTER_DOMAIN=cluster.local
       MANIFESTS_PATH=/opt/kubernetes/manifests/
-      RESTART_SECONDS=10
+      RESTART_SECONDS=10s
