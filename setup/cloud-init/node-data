@@ -8,7 +8,7 @@ coreos:
     proxy: on
     # replace it with actual names and ips when before bootstrapping
     # initial-cluster: ${NAME1=PRIVATE_IP1,NAME2=PRIVATE_IP2,NAME3=PRIVATE_IP3}
-    initial-cluster: "4214425e293d4fecbb26fcd3b30ca60a=http://172.17.8.100:2380"
+    initial-cluster: "4404873f22ad4e8d8afa60a3a0c73fdf=http://172.17.8.100:2380"
 
   fleet:
     public-ip: $public_ipv4
@@ -74,7 +74,7 @@ write_files:
     permissions: 0644
     owner: root
     content: |
-      KUBERNETES_VERSION=1.0.1
+      KUBERNETES_VERSION=1.0.3
       API_SERVER_IP=172.17.8.100
       ETCD_SERVER_PORT_1=2379
       ETCD_SERVER_PORT_2=4001

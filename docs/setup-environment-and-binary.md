@@ -108,12 +108,13 @@ journalctl -f -u hello.service
 #### Installation
 
 ```bash
-KUBERNETES_VERSION=1.0.2
+KUBERNETES_VERSION=1.0.3
 PLATFORM="darwin"
 
 # wget -q --no-check-certificate -L -O /usr/local/bin/kubectl "https://storage.googleapis.com/kubernetes-release/release/v${KUBERNETES_VERSION}/bin/${PLATFORM}/amd64/kubectl"
-wget -q --no-check-certificate -L -O /usr/local/bin/kubectl "https://storage.googleapis.com/kubernetes-release/release/v1.0.1/bin/darwin/amd64/kubectl"
-chmod +x /usr/local/bin/kubectl
+curl -o ./kubectl "https://storage.googleapis.com/kubernetes-release/release/v1.0.3/bin/darwin/amd64/kubectl"
+chmod +x ./kubectl
+mv ./kubectl /usr/local/bin/kubectl
 ```
 
 #### Connect to Kubernetes API Server
