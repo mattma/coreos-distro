@@ -7,13 +7,15 @@ Wants=network-online.target
 [Service]
 Type=notify
 EnvironmentFile=/etc/network-environment
+EnvironmentFile=/etc/sysconfig/kubernetes-config
 ExecStartPre=-/usr/bin/mkdir -p /opt/bin
+ExecStartPre=-/usr/bin/rm /opt/bin/flanneld
 ExecStartPre=/usr/bin/wget -N -P /opt/bin http://storage.googleapis.com/flannel/flanneld
 ExecStartPre=/usr/bin/chmod +x /opt/bin/flanneld
 ExecStartPre=-/usr/bin/etcdctl mk /coreos.com/network/config \
-  '{"Network":"10.244.0.0/16", "Backend": {"Type": "vxlan"}}'
+  '{"Network":"${FLANNELD_NETWORK}", "Backend": {"Type": "${FLANNELD_BACKEND_TYPE}"}}'
 ExecStart=/opt/bin/flanneld \
-  -etcd-endpoints="http://172.17.8.100:2379,http://172.17.8.100:4001" \
+  -etcd-endpoints="http://${API_SERVER_IP}:${ETCD_SERVER_PORT_1},http://${API_SERVER_IP}:${ETCD_SERVER_PORT_2}" \
   -iface=${ETH1_IPV4}
 
 [X-Fleet]
