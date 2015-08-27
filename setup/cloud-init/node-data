@@ -88,4 +88,3 @@ write_files:
       CLUSTER_DNS=10.100.0.10
       CLUSTER_DOMAIN=cluster.local
       MANIFESTS_PATH=/opt/kubernetes/manifests/
-      RESTART_SECONDS=10s
