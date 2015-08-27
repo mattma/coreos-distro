@@ -15,7 +15,7 @@ ExecStartPre=/usr/bin/chmod +x /opt/bin/flanneld
 ExecStartPre=-/usr/bin/etcdctl mk /coreos.com/network/config \
   '{"Network":"${FLANNELD_NETWORK}", "Backend": {"Type": "${FLANNELD_BACKEND_TYPE}"}}'
 ExecStart=/opt/bin/flanneld \
-  -etcd-endpoints="http://${API_SERVER_IP}:${ETCD_SERVER_PORT_1},http://${API_SERVER_IP}:${ETCD_SERVER_PORT_2}" \
+  -etcd-endpoints="http://${MASTER_IP}:${ETCD_SERVER_PORT_1},http://${MASTER_IP}:${ETCD_SERVER_PORT_2}" \
   -iface=${ETH1_IPV4}
 
 [X-Fleet]
