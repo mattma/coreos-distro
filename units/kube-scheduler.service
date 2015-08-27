@@ -13,7 +13,7 @@ ExecStartPre=/usr/bin/chmod +x /opt/bin/kube-scheduler
 ExecStart=/opt/bin/kube-scheduler \
   --master=http://127.0.0.1:${INSECURE_PORT}
 Restart=always
-RestartSec=${RESTART_SECONDS}
+RestartSec=10s
 
 [X-Fleet]
 MachineOf=kube-apiserver.service

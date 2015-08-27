@@ -25,7 +25,7 @@ ExecStart=/opt/bin/kube-apiserver \
   --logtostderr=true \
   --runtime_config=${RUNTIME_CONFIG}
 Restart=always
-RestartSec=${RESTART_SECONDS}
+RestartSec=10s
 
 [X-Fleet]
 Global=true

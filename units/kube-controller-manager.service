@@ -13,9 +13,10 @@ ExecStartPre=/usr/bin/chmod +x /opt/bin/kube-controller-manager
 ExecStart=/opt/bin/kube-controller-manager \
   --master=127.0.0.1:${INSECURE_PORT} \
   --pod_eviction_timeout=${POD_EVICTION_TIMEOUT} \
+  --cloud-provider=${CLOUD_PROVIDER} \
   --logtostderr=true
 Restart=always
-RestartSec=${RESTART_SECONDS}
+RestartSec=10s
 
 [X-Fleet]
 MachineOf=kube-apiserver.service

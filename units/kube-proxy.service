@@ -14,7 +14,7 @@ ExecStart=/opt/bin/kube-proxy \
   --master=http://${API_SERVER_IP}:${INSECURE_PORT} \
   --logtostderr=true
 Restart=always
-RestartSec=${RESTART_SECONDS}
+RestartSec=10s
 
 [X-Fleet]
 Global=true
