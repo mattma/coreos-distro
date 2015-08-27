@@ -17,7 +17,7 @@ ExecStart=/usr/bin/docker run \
   --pod_eviction_timeout=30s \
   --logtostderr=true
 Restart=always
-RestartSec=10
+RestartSec=${RESTART_SECONDS}
 
 [X-Fleet]
 MachineOf=kube-apiserver.service

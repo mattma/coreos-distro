@@ -85,6 +85,7 @@ write_files:
       Restart=always
       RestartSec=10s
       LimitNOFILE=40000
+
   - path: /etc/sysconfig/kubernetes-config
     permissions: 0644
     owner: root
@@ -98,3 +99,4 @@ write_files:
       SERVICE_CLUSTER_IP_RANGE=10.100.0.0/16
       CORS_ALLOWED_ORIGINS=.*
       RUNTIME_CONFIG=api/v1
+      RESTART_SECONDS=10

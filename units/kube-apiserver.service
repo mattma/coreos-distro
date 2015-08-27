@@ -25,7 +25,7 @@ ExecStart=/usr/bin/docker run \
   --logtostderr=true
   --runtime_config=${RUNTIME_CONFIG}
 Restart=always
-RestartSec=10
+RestartSec=${RESTART_SECONDS}
 
 [X-Fleet]
 Global=true

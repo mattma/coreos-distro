@@ -26,8 +26,7 @@ ExecStart=/opt/bin/kubelet \
   --healthz_bind_address=${BIND_ADDRESS} \
   --healthz_port=${HEALTHZ_PORT}
 Restart=always
-RestartSec=10
-WorkingDirectory=/root/
+RestartSec=${RESTART_SECONDS}
 
 [X-Fleet]
 Global=true
