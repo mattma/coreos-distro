@@ -46,3 +46,10 @@ Use https with certs, and credentials for user, need to prepare certs and creden
 
 ##### Preparing Certs
 
+The master needs a cert to act as an HTTPS server.
+The kubelets optionally need certs to identify themselves as clients of the master, and when serving its own API over HTTPS.
+
+Unless you plan to have a real CA generate your certs, you will need to generate a root cert and use that to sign the master, kubelet, and kubectl certs.
+
+
+[function `create-certs` in `util.sh`](https://github.com/kubernetes/kubernetes/blob/master/cluster/gce/util.sh)
