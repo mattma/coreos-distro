@@ -22,8 +22,7 @@ MASTER_IP=172.17.8.100
 SERVICE_CLUSTER_IP_RANGE=10.100.0.0/16
 DNS_DOMAIN=cluster.local
 MASTER_NAME=kube-master
-KUBE_TEMP=
-CERT_DIR=
+KUBE_TEMP=./setup/tmp
 
 # Create certificate pairs for the cluster.
 # $1: The public IP for the master.
@@ -88,6 +87,5 @@ function create-certs {
   KUBECFG_CERT_BASE64=$(cat "${CERT_DIR}/pki/issued/kubecfg.crt" | base64 | tr -d '\r\n')
   KUBECFG_KEY_BASE64=$(cat "${CERT_DIR}/pki/private/kubecfg.key" | base64 | tr -d '\r\n')
 }
-
 
 create-certs "${MASTER_IP}"
