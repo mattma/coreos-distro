@@ -21,6 +21,7 @@
 MASTER_IP=172.17.8.100
 SERVICE_CLUSTER_IP_RANGE=10.100.0.0/16
 DNS_DOMAIN=cluster.local
+# defined in `Vagrantfile` line 14
 MASTER_NAME=kube-master
 KUBE_TEMP=./setup/tmp
 
