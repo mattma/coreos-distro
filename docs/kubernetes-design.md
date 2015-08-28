@@ -22,3 +22,27 @@ Kubernetes also allocates an IP to each service. However, service IPs do not nec
 
 Need to pick a static IP for master node `MASTER_IP`, 1. Open any firewalls to allow access to the apiserver ports 80 and/or 443.
 2. Enable ipv4 forwarding sysctl, `net.ipv4.ip_forward = 1`
+
+### Latest Binary
+
+```
+https://github.com/GoogleCloudPlatform/kubernetes/releases/latest
+```
+
+### Images
+
+run docker, kubelet, and kube-proxy outside of a container, the same way you would run any system daemon,
+run etcd, kube-apiserver, kube-controller-manager, and kube-scheduler, we recommend that you run these as containers
+
+### Security Models
+
+There are two main options for security:
+
+1. Access the apiserver using HTTP. Use a firewall for security.
+
+2. Access the apiserver using HTTPS. (recommended)
+
+Use https with certs, and credentials for user, need to prepare certs and credentials.
+
+##### Preparing Certs
+

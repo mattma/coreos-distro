@@ -6,11 +6,13 @@ After=kube-apiserver.service
 
 [Service]
 EnvironmentFile=/etc/sysconfig/kubernetes-config
-ExecStartPre=-/usr/bin/mkdir -p /opt/bin
-ExecStartPre=-/usr/bin/rm /opt/bin/kube-controller-manager
-ExecStartPre=/usr/bin/curl -L -o /opt/bin/kube-controller-manager -z /opt/bin/kube-controller-manager https://storage.googleapis.com/kubernetes-release/release/v${KUBERNETES_VERSION}/bin/linux/amd64/kube-controller-manager
-ExecStartPre=/usr/bin/chmod +x /opt/bin/kube-controller-manager
-ExecStart=/opt/bin/kube-controller-manager \
+ExecStartPre=-/usr/bin/docker kill kube-controller-manager
+ExecStartPre=-/usr/bin/docker rm kube-controller-manager
+ExecStartPre=/usr/bin/docker pull mattma/kube-controller-manager:${KUBERNETES_VERSION}
+ExecStart=/usr/bin/docker run \
+  --net=host \
+  --name kube-controller-manager \
+  mattma/kube-controller-manager:${KUBERNETES_VERSION} \
   --master=127.0.0.1:${INSECURE_PORT} \
   --pod_eviction_timeout=${POD_EVICTION_TIMEOUT} \
   --cloud-provider=${CLOUD_PROVIDER} \
