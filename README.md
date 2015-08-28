@@ -126,9 +126,12 @@ Then you can then use the `docker` command from your local shell by setting `DOC
 # Start master machine
 ROLE=master IP=172.17.8.100 vagrant up
 
-ROLE=master vagrant ssh -c 'cat /etc/systemd/system/etcd2.service.d/initial-cluster.conf'
+INITIAL_CLUSTER_ID=ROLE=master vagrant ssh -c 'cat /etc/machine-id'
+
 # open `setup/cloud-init/node-data` file to replace the value in `coreos/etcd2/initial-cluster`. ex:
-initial-cluster: "e0100b6a52d049aeacf52b529d13d006=http://172.17.8.100:2380"
+initial-cluster: "${INITIAL_CLUSTER_ID}=http://${MASTER_IP}:2380"
+
+# Actually value is being saved at `/etc/systemd/system/etcd2.service.d/initial-cluster.conf`
 ```
 
 Find more [details](./docs/start-master-and-node-machine.md)
