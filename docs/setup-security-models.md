@@ -224,11 +224,11 @@ Sets the current-context in a kubeconfig file. `kubectl config use-context CONTE
 
 ```
 CLUSTER_NAME=kube-rocks
-CA_CERT=/etc/kubernetes/ca.crt
+CA_CERT=./setup/tmp/kubernetes/ca.crt
 MASTER_IP=172.17.8.100
 USER=mattma
-CLI_CERT=/etc/kubernetes/server.crt
-CLI_KEY=/etc/kubernetes/server.key
+CLI_CERT=./setup/tmp/kubernetes/server.crt
+CLI_KEY=./setup/tmp/kubernetes/server.key
 TOKEN=$(dd if=/dev/urandom bs=128 count=1 2>/dev/null | base64 | tr -d "=+/" | dd bs=32 count=1 2>/dev/null)
 CONTEXT_NAME=rocks
 
@@ -243,7 +243,7 @@ kubectl config set-context $CONTEXT_NAME --cluster=$CLUSTER_NAME --user=$USER
 kubectl config use-context $CONTEXT_NAME
 
 # To view your current config file
-./kubectl config view
+kubectl config view
 ```
 
 

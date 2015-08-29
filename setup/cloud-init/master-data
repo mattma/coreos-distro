@@ -91,6 +91,7 @@ write_files:
     owner: root
     content: |
       KUBERNETES_VERSION=1.0.3
+      SECURE_BIND_ADDRESS=0.0.0.0
       INSECURE_BIND_ADDRESS=0.0.0.0
       INSECURE_PORT=8080
       SECURE_PORT=6443
@@ -102,4 +103,4 @@ write_files:
       RUNTIME_CONFIG=api/v1
       CLOUD_PROVIDER=
       POD_EVICTION_TIMEOUT=30s
-      ADMISSION_CONTROL=ServiceAccount
+      ADMISSION_CONTROL=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota

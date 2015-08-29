@@ -19,10 +19,11 @@ ExecStart=/usr/bin/docker run \
   -v /var/log:/var/log \
   mattma/kube-apiserver:${KUBERNETES_VERSION} \
   --allow_privileged=true \
+  --bind_address=${SECURE_BIND_ADDRESS} \
+  --secure_port=${SECURE_PORT} \
   --insecure_bind_address=${INSECURE_BIND_ADDRESS} \
   --insecure_port=${INSECURE_PORT} \
   --kubelet_https=true \
-  --secure_port=${SECURE_PORT} \
   --service-cluster-ip-range=${SERVICE_CLUSTER_IP_RANGE} \
   --etcd_servers=http://127.0.0.1:${ETCD_SERVER_PORT_1},http://127.0.0.1:${ETCD_SERVER_PORT_2} \
   --cors_allowed_origins=${CORS_ALLOWED_ORIGINS} \
