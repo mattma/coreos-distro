@@ -1,4 +1,23 @@
-## Generate certs
+## Generate cert
+
+**Simple version**
+
+```bash
+cd /path/to/coreos-distro
+./setup/utils/certs.sh
+```
+
+Your certs should be inside `./setup/tmp/kubernetes/`
+
+Login your machine `ROLE=master IP=172.17.8.100 vagrant ssh`
+
+```bash
+sudo mkdir -p /etc/kubernetes
+sudo touch /etc/kubernetes/ca.crt /etc/kubernetes/server.crt /etc/kubernetes/server.key
+# Then copy the value into those three files
+```
+
+**TL;DR**
 
 ```bash
 cd /path/to/coreos-distro
@@ -205,14 +224,13 @@ Sets the current-context in a kubeconfig file. `kubectl config use-context CONTE
 
 ```
 CLUSTER_NAME=kube-rocks
-CA_CERT=~/.kube/kube-rocks/kubernetes.ca.crt
+CA_CERT=/etc/kubernetes/ca.crt
 MASTER_IP=172.17.8.100
 USER=mattma
-CLI_CERT=~/.kube/admin.crt
-CLI_KEY=~/.kube/admin.key
+CLI_CERT=/etc/kubernetes/server.crt
+CLI_KEY=/etc/kubernetes/server.key
 TOKEN=$(dd if=/dev/urandom bs=128 count=1 2>/dev/null | base64 | tr -d "=+/" | dd bs=32 count=1 2>/dev/null)
-CLUSTER_NAME=
-CONTEXT_NAME=
+CONTEXT_NAME=rocks
 
 # Set the apiserver ip, client certs, and user credentials.
 kubectl config set-cluster $CLUSTER_NAME --certificate-authority=$CA_CERT --embed-certs=true --server=https://$MASTER_IP
@@ -223,6 +241,9 @@ kubectl config set-credentials $USER --client-certificate=$CLI_CERT --client-key
 # Set your cluster as the default cluster to use
 kubectl config set-context $CONTEXT_NAME --cluster=$CLUSTER_NAME --user=$USER
 kubectl config use-context $CONTEXT_NAME
+
+# To view your current config file
+./kubectl config view
 ```
 
 

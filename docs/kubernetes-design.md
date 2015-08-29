@@ -53,3 +53,36 @@ Unless you plan to have a real CA generate your certs, you will need to generate
 
 
 [function `create-certs` in `util.sh`](https://github.com/kubernetes/kubernetes/blob/master/cluster/gce/util.sh)
+
+## Configuring and Installing Base Software on Nodes
+
+You should run three daemons on every node: Docker/rkt, kubelet, kube-proxy
+
+#### kubelet
+
+All nodes should run kubelet. Arguments to consider:
+
+If following the HTTPS security approach:
+    --api-servers=https://$MASTER_IP
+    --kubeconfig=/var/lib/kubelet/kubeconfig
+
+Otherwise, if taking the firewall-based security approach
+    --api-servers=http://$MASTER_IP
+    --config=/etc/kubernetes/manifests
+    --cluster-dns= to the address of the DNS server you will setup (see Starting Addons.)
+    --cluster-domain= to the dns domain prefix to use for cluster DNS addresses.
+    --docker-root=
+    --root-dir=
+    --configure-cbr0= (described above)
+    --register-node (described in Node documentation.)
+
+#### kube-proxy
+
+All nodes should run kube-proxy. Arguments to consider:
+
+If following the HTTPS security approach:
+    --api-servers=https://$MASTER_IP
+    --kubeconfig=/var/lib/kube-proxy/kubeconfig
+
+Otherwise, if taking the firewall-based security approach
+    --api-servers=http://$MASTER_IP

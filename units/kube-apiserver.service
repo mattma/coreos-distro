@@ -13,6 +13,10 @@ ExecStartPre=/usr/bin/docker pull mattma/kube-apiserver:${KUBERNETES_VERSION}
 ExecStart=/usr/bin/docker run \
   --net=host \
   --name kube-apiserver \
+  -v /srv/kubernetes:/srv/kubernetes \
+  -v /etc/ssl:/etc/ssl \
+  -v /var/run/kubernetes:/var/run/kubernetes \
+  -v /var/log:/var/log \
   mattma/kube-apiserver:${KUBERNETES_VERSION} \
   --allow_privileged=true \
   --insecure_bind_address=${INSECURE_BIND_ADDRESS} \
@@ -24,6 +28,10 @@ ExecStart=/usr/bin/docker run \
   --cors_allowed_origins=${CORS_ALLOWED_ORIGINS} \
   --service-node-port-range=${SERVICE_NODE_PORT_RANGE} \
   --cloud-provider=${CLOUD_PROVIDER} \
+  --cluster-name="kube-rocks" \
+  --client-ca-file=/srv/kubernetes/ca.crt \
+  --tls-cert-file=/srv/kubernetes/server.crt \
+  --tls-private-key-file=/srv/kubernetes/server.key \
   --admission-control=${ADMISSION_CONTROL} \
   --logtostderr=true \
   --runtime_config=${RUNTIME_CONFIG}
