@@ -225,7 +225,7 @@ Sets the current-context in a kubeconfig file. `kubectl config use-context CONTE
 ```
 CLUSTER_NAME=kube-rocks
 CA_CERT=./setup/tmp/kubernetes/ca.crt
-MASTER_IP=172.17.8.100
+MASTER_IP=172.17.8.100:6443
 USER=mattma
 CLI_CERT=./setup/tmp/kubernetes/server.crt
 CLI_KEY=./setup/tmp/kubernetes/server.key
@@ -233,7 +233,7 @@ TOKEN=$(dd if=/dev/urandom bs=128 count=1 2>/dev/null | base64 | tr -d "=+/" | d
 CONTEXT_NAME=rocks
 
 # Set the apiserver ip, client certs, and user credentials.
-kubectl config set-cluster $CLUSTER_NAME --certificate-authority=$CA_CERT --embed-certs=true --server=https://$MASTER_IP
+kubectl config set-cluster $CLUSTER_NAME --certificate-authority=$CA_CERT --embed-certs=true --server=http://$MASTER_IP
 
 # Embed client certificate data in the `$USER` entry
 kubectl config set-credentials $USER --client-certificate=$CLI_CERT --client-key=$CLI_KEY --embed-certs=true --token=$TOKEN
@@ -246,6 +246,7 @@ kubectl config use-context $CONTEXT_NAME
 kubectl config view
 ```
 
+[Client certificate authentication](https://github.com/kubernetes/kubernetes/blob/968cbbee5d4964bd916ba379904c469abb53d623/docs/admin/authentication.md) is enabled by passing the --client-ca-file=SOMEFILE option to apiserver. The referenced file must contain one or more certificates authorities to use to validate client certificates presented to the apiserver. If a client certificate is presented and verified, the common name of the subject is used as the user name for the request.
 
 ### Setup Node
 
