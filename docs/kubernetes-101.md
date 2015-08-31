@@ -224,6 +224,4 @@ kubectl delete rc my-nginx
 # Leave all running pods controlled by this replication controller running
 # and ONLY delete replication controller itself
 kubectl delete rc my-nginx --cascade=false
-
-
 ```
