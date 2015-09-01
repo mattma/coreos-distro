@@ -12,9 +12,19 @@ Your certs should be inside `./setup/tmp/kubernetes/`
 Login your machine `ROLE=master IP=172.17.8.100 vagrant ssh`
 
 ```bash
-sudo mkdir -p /etc/kubernetes
-sudo touch /etc/kubernetes/ca.crt /etc/kubernetes/server.crt /etc/kubernetes/server.key
-# Then copy the value into those three files
+sudo mkdir -p /srv/kubernetes
+sudo touch /srv/kubernetes/ca.crt /srv/kubernetes/server.crt /srv/kubernetes/server.key /srv/kubernetes/tokens.csv
+```
+
+```bash
+cd /srv/kubernetes/
+sudo vi /srv/kubernetes/ca.crt
+sudo vi /srv/kubernetes/server.crt
+sudo vi /srv/kubernetes/server.key
+
+# modify/insert the value: token, username, username
+# E.G: ENY0iagPFjyC5fOoQ79flBBGfds3Vyk2,mattma,mattma
+sudo vi /srv/kubernetes/tokens.csv
 ```
 
 **TL;DR**
