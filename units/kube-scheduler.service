@@ -12,8 +12,10 @@ ExecStartPre=/usr/bin/docker pull mattma/kube-scheduler:${KUBERNETES_VERSION}
 ExecStart=/usr/bin/docker run \
   --net=host \
   --name kube-scheduler \
+  -v /srv/kubernetes:/srv/kubernetes \
+  -v /etc/ssl:/etc/ssl \
   mattma/kube-scheduler:${KUBERNETES_VERSION} \
-  --master=http://127.0.0.1:${INSECURE_PORT}
+  --master=http://127.0.0.1:${SECURE_PORT}
 Restart=always
 RestartSec=10s
 

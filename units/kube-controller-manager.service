@@ -12,11 +12,13 @@ ExecStartPre=/usr/bin/docker pull mattma/kube-controller-manager:${KUBERNETES_VE
 ExecStart=/usr/bin/docker run \
   --net=host \
   --name kube-controller-manager \
+  -v /srv/kubernetes:/srv/kubernetes \
+  -v /etc/ssl:/etc/ssl \
   mattma/kube-controller-manager:${KUBERNETES_VERSION} \
-  --master=127.0.0.1:${INSECURE_PORT} \
-  --service_account_private_key_file=/home/core/kube-serviceaccount.key \
+  --master=127.0.0.1:${SECURE_PORT} \
+  --cluster_name=${CLUSTER_NAME} \
+  --service_account_private_key_file=${SERVER_PRIVATE_KEY_PATH} \
   --pod_eviction_timeout=${POD_EVICTION_TIMEOUT} \
-  --cloud-provider=${CLOUD_PROVIDER} \
   --logtostderr=true
 Restart=always
 RestartSec=10s

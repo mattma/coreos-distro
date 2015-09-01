@@ -27,6 +27,33 @@ sudo vi /srv/kubernetes/server.key
 sudo vi /srv/kubernetes/tokens.csv
 ```
 
+**On Host Machine, generate `kubeconfig` file (~/.kube/config)**
+
+```
+CLUSTER_NAME=kube-rocks
+CA_CERT=/Users/mattma/Documents/repos/github/coreos-distro/setup/tmp/kubernetes/ca.crt
+MASTER_IP=172.17.8.100:6443
+USER=mattma
+CLI_CERT=/Users/mattma/Documents/repos/github/coreos-distro/setup/tmp/kubernetes/server.crt
+CLI_KEY=/Users/mattma/Documents/repos/github/coreos-distro/setup/tmp/kubernetes/server.key
+TOKEN=$(dd if=/dev/urandom bs=128 count=1 2>/dev/null | base64 | tr -d "=+/" | dd bs=32 count=1 2>/dev/null)
+CONTEXT_NAME=rocks
+
+kubectl config set-cluster $CLUSTER_NAME --certificate-authority=$CA_CERT --embed-certs=true --server=https://$MASTER_IP
+
+kubectl config set-credentials $USER --token=$TOKEN
+
+kubectl config set-context $CONTEXT_NAME --cluster=$CLUSTER_NAME --user=$USER
+kubectl config use-context $CONTEXT_NAME
+
+# To view your current config file
+kubectl config view
+```
+
+**Put `kubeconfig` (~/.kube/config) on every node which run `kubelet`**
+
+kubeconfigs stores in both `/var/lib/kube-proxy/kubeconfig` and `/var/lib/kubelet/kubeconfig`
+
 **TL;DR**
 
 ```bash

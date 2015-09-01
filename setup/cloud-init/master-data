@@ -90,7 +90,7 @@ write_files:
     permissions: 0644
     owner: root
     content: |
-      KUBERNETES_VERSION=1.0.3
+      KUBERNETES_VERSION=1.0.4
       SECURE_BIND_ADDRESS=0.0.0.0
       SECURE_PORT=6443
       SERVICE_CLUSTER_IP_RANGE=10.100.0.0/16
