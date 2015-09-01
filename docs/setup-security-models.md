@@ -224,19 +224,31 @@ Sets the current-context in a kubeconfig file. `kubectl config use-context CONTE
 
 ```
 CLUSTER_NAME=kube-rocks
-CA_CERT=./setup/tmp/kubernetes/ca.crt
+CA_CERT=/Users/mattma/Documents/repos/github/coreos-distro/setup/tmp/kubernetes/ca.crt
 MASTER_IP=172.17.8.100:6443
 USER=mattma
-CLI_CERT=./setup/tmp/kubernetes/server.crt
-CLI_KEY=./setup/tmp/kubernetes/server.key
+CLI_CERT=/Users/mattma/Documents/repos/github/coreos-distro/setup/tmp/kubernetes/server.crt
+CLI_KEY=/Users/mattma/Documents/repos/github/coreos-distro/setup/tmp/kubernetes/server.key
 TOKEN=$(dd if=/dev/urandom bs=128 count=1 2>/dev/null | base64 | tr -d "=+/" | dd bs=32 count=1 2>/dev/null)
 CONTEXT_NAME=rocks
 
+# Note: the USER need to be defined on `/srv/kubernetes/tokens.csv`
+# When using token authentication from an http client the apiserver expects an Authorization header with a value of Bearer SOMETOKEN.
+#  token, user name, user uid
+# ENY0iagPFjyC5fOoQ79flBBGfds3Vyk2,mattma,mattma
+
+
 # Set the apiserver ip, client certs, and user credentials.
-kubectl config set-cluster $CLUSTER_NAME --certificate-authority=$CA_CERT --embed-certs=true --server=http://$MASTER_IP
+kubectl config set-cluster $CLUSTER_NAME --certificate-authority=$CA_CERT --embed-certs=true --server=https://$MASTER_IP
 
 # Embed client certificate data in the `$USER` entry
-kubectl config set-credentials $USER --client-certificate=$CLI_CERT --client-key=$CLI_KEY --embed-certs=true --token=$TOKEN
+
+# OPTION 1
+kubectl config set-credentials $USER --token=$TOKEN
+
+# OPTION 2
+# any request presenting a client certificate signed by one of the authorities in the client-ca-file is authenticated with an identity corresponding to the CommonName of the client certificate.
+kubectl config set-credentials $USER --client-certificate=$CLI_CERT --client-key=$CLI_KEY --embed-certs=true
 
 # Set your cluster as the default cluster to use
 kubectl config set-context $CONTEXT_NAME --cluster=$CLUSTER_NAME --user=$USER
@@ -244,6 +256,9 @@ kubectl config use-context $CONTEXT_NAME
 
 # To view your current config file
 kubectl config view
+
+kubectl get po --v=10
+curl -k -v -XGET --key $CLI_KEY https://172.17.8.100:6443/api
 ```
 
 [Client certificate authentication](https://github.com/kubernetes/kubernetes/blob/968cbbee5d4964bd916ba379904c469abb53d623/docs/admin/authentication.md) is enabled by passing the --client-ca-file=SOMEFILE option to apiserver. The referenced file must contain one or more certificates authorities to use to validate client certificates presented to the apiserver. If a client certificate is presented and verified, the common name of the subject is used as the user name for the request.

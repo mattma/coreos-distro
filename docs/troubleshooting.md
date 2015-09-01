@@ -1,5 +1,12 @@
 ## [TroubleShooting](https://github.com/kubernetes/kubernetes/blob/release-1.0/docs/user-guide/application-troubleshooting.md#debugging-pods)
 
+### Debugging authenciation
+
+```bash
+# check the status of curl, does authenciation work?
+kubectl get po --v=10
+```
+
 ### Debugging Pods
 
 Check the current state of the Pod and recent events, look at the state of the containers in the pod.  Are they all `Running`?  Have there been recent restarts?
