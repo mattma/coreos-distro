@@ -109,3 +109,31 @@ write_files:
       INSECURE_BIND_ADDRESS=0.0.0.0
       INSECURE_PORT=8080
       CLOUD_PROVIDER=
+
+  - path: /srv/kubernetes/ca.crt
+    permissions: 0644
+    owner: root
+    content: |
+      -----BEGIN CERTIFICATE-----
+      ### CERT GOES HERE
+      -----END CERTIFICATE-----
+
+  - path: /srv/kubernetes/server.crt
+    permissions: 0644
+    owner: root
+    content: |
+      ### CERT GOES HERE
+
+  - path: /srv/kubernetes/server.key
+    permissions: 0644
+    owner: root
+    content: |
+      -----BEGIN RSA PRIVATE KEY-----
+      ### KEY GOES HERE
+      -----END RSA PRIVATE KEY-----
+
+  - path: /srv/kubernetes/tokens.csv
+    permissions: 0644
+    owner: root
+    content: |
+      TOKEN,USERNAME,USERID
