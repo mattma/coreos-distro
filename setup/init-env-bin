@@ -5,7 +5,7 @@ IP=172.17.8.100
 PLATFORM="darwin"
 ETCD_VERSION=2.1.1
 FLEET_VERSION=0.11.2
-KUBERNETES_VERSION=1.0.1
+KUBERNETES_VERSION=1.0.4
 
 # etcdctl binary installation
 if [ ! -f /usr/local/bin/etcdctl ]; then
@@ -43,7 +43,7 @@ echo "######## Copy and paste environment variables"
 echo ""
 
 echo "### One-Liner"
-echo "ssh-add  ~/.vagrant.d/insecure_private_key && export FLEETCTL_TUNNEL=$IP && export ETCDCTL_PEERS=http://$IP:4001 && export KUBERNETES_MASTER=http://$IP:8080"
+echo "ssh-add  ~/.vagrant.d/insecure_private_key && export FLEETCTL_TUNNEL=$IP && export ETCDCTL_PEERS=http://$IP:4001 && export KUBERNETES_MASTER=https://$IP:6443"
 echo "########"
 
 echo ""
@@ -57,7 +57,7 @@ echo ""
 echo "export ETCDCTL_PEERS=http://$IP:4001"
 echo ""
 
-echo "export KUBERNETES_MASTER=http://$IP:8080"
+echo "export KUBERNETES_MASTER=https://$IP:6443"
 echo ""
 
 echo "########"
