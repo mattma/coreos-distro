@@ -15,7 +15,7 @@ ExecStart=/usr/bin/docker run \
   -v /srv/kubernetes:/srv/kubernetes \
   -v /etc/ssl:/etc/ssl \
   mattma/kube-scheduler:${KUBERNETES_VERSION} \
-  --master=http://127.0.0.1:${SECURE_PORT}
+  --master=http://127.0.0.1:${INSECURE_PORT}
 Restart=always
 RestartSec=10s
 
