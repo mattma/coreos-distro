@@ -8,7 +8,7 @@ coreos:
     proxy: on
     # replace it with actual names and ips when before bootstrapping
     # initial-cluster: ${NAME1=PRIVATE_IP1,NAME2=PRIVATE_IP2,NAME3=PRIVATE_IP3}
-    initial-cluster: "4404873f22ad4e8d8afa60a3a0c73fdf=http://172.17.8.100:2380"
+    initial-cluster: "3f62eb2a59964bd18b9522491529d7b4=http://172.17.8.100:2380"
 
   fleet:
     public-ip: $public_ipv4
@@ -74,17 +74,20 @@ write_files:
     permissions: 0644
     owner: root
     content: |
-      KUBERNETES_VERSION=1.0.3
+      KUBERNETES_VERSION=1.0.4
       MASTER_IP=172.17.8.100
-      ETCD_SERVER_PORT_1=2379
-      ETCD_SERVER_PORT_2=4001
-      FLANNELD_NETWORK=10.244.0.0/16
-      FLANNELD_BACKEND_TYPE=vxlan
       BIND_ADDRESS=0.0.0.0
-      KUBELET_PORT=10250
-      INSECURE_PORT=8080
-      CADVISOR_PORT=4194
-      HEALTHZ_PORT=10248
+      SECURE_PORT=6443
       CLUSTER_DNS=10.100.0.10
       CLUSTER_DOMAIN=cluster.local
+      FLANNELD_NETWORK=10.244.0.0/16
+      FLANNELD_BACKEND_TYPE=vxlan
       MANIFESTS_PATH=/opt/kubernetes/manifests/
+      KUBECONFIG_KUBELET_PATH=/var/lib/kubelet/kubeconfig
+      KUBECONFIG_PROXY_PATH=/var/lib/kube-proxy/kubeconfig
+      ETCD_SERVER_PORT_1=2379
+      ETCD_SERVER_PORT_2=4001
+      KUBELET_PORT=10250
+      CADVISOR_PORT=4194
+      HEALTHZ_PORT=10248
+      INSECURE_PORT=8080

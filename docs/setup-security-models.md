@@ -54,6 +54,20 @@ kubectl config view
 
 kubeconfigs stores in both `/var/lib/kube-proxy/kubeconfig` and `/var/lib/kubelet/kubeconfig`
 
+Below steps need to be done on each Node machine.
+
+```bash
+IP=172.17.8.101 NUM=1 vagrant ssh
+
+# Now you should be logged on the Node machine
+sudo mkdir -p /var/lib/kubelet/ /var/lib/kube-proxy
+sudo touch /var/lib/kubelet/kubeconfig /var/lib/kube-proxy/kubeconfig
+
+# copy and paste the value of ~/.kube/config from host machine
+sudo vi /var/lib/kubelet/kubeconfig
+sudo vi /var/lib/kube-proxy/kubeconfig
+```
+
 **TL;DR**
 
 ```bash
