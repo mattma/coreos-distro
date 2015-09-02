@@ -4,14 +4,55 @@
 
 ```bash
 cd /path/to/coreos-distro
+
+# delete the content if it previously generated certs and keys
+./setup/utils/certs-cleanup.sh
+
+# generate the certs and keys. Your certs should be inside `./setup/tmp/kubernetes/`
 ./setup/utils/certs.sh
 ```
 
-Your certs should be inside `./setup/tmp/kubernetes/`
+**On Host machine, setup all local environment variables**
 
-Login your machine `ROLE=master IP=172.17.8.100 vagrant ssh`
+```
+CLUSTER_NAME=kube-rocks
+CA_CERT=./setup/tmp/kubernetes/ca.crt
+MASTER_IP=https://172.17.8.100:6443
+USER=mattma
+CLI_CERT=./setup/tmp/kubernetes/server.crt
+CLI_KEY=./setup/tmp/kubernetes/server.key
+TOKEN=$(dd if=/dev/urandom bs=128 count=1 2>/dev/null | base64 | tr -d "=+/" | dd bs=32 count=1 2>/dev/null)
+CONTEXT_NAME=rocks
+```
+
+Remember the value of Token, it will be used to save on Master Node.
 
 ```bash
+echo $TOKEN
+```
+
+
+**On Host Machine, generate `kubeconfig` file (~/.kube/config)**
+
+```bash
+kubectl config set-cluster $CLUSTER_NAME --certificate-authority=$CA_CERT --embed-certs=true --server=$MASTER_IP
+
+kubectl config set-credentials $USER --token=$TOKEN
+
+kubectl config set-context $CONTEXT_NAME --cluster=$CLUSTER_NAME --user=$USER
+kubectl config use-context $CONTEXT_NAME
+
+# To view your current config file
+kubectl config view
+```
+
+
+**Logon Master node**
+
+```bash
+ROLE=master IP=172.17.8.100 vagrant ssh
+
+# You should be on Master node
 sudo mkdir -p /srv/kubernetes
 sudo touch /srv/kubernetes/ca.crt /srv/kubernetes/server.crt /srv/kubernetes/server.key /srv/kubernetes/tokens.csv
 ```
@@ -27,28 +68,10 @@ sudo vi /srv/kubernetes/server.key
 sudo vi /srv/kubernetes/tokens.csv
 ```
 
-**On Host Machine, generate `kubeconfig` file (~/.kube/config)**
+You are done on Master Node setup. Go back to the root [README](../README.md).
 
-```
-CLUSTER_NAME=kube-rocks
-CA_CERT=/Users/mattma/Documents/repos/github/coreos-distro/setup/tmp/kubernetes/ca.crt
-MASTER_IP=172.17.8.100:6443
-USER=mattma
-CLI_CERT=/Users/mattma/Documents/repos/github/coreos-distro/setup/tmp/kubernetes/server.crt
-CLI_KEY=/Users/mattma/Documents/repos/github/coreos-distro/setup/tmp/kubernetes/server.key
-TOKEN=$(dd if=/dev/urandom bs=128 count=1 2>/dev/null | base64 | tr -d "=+/" | dd bs=32 count=1 2>/dev/null)
-CONTEXT_NAME=rocks
 
-kubectl config set-cluster $CLUSTER_NAME --certificate-authority=$CA_CERT --embed-certs=true --server=https://$MASTER_IP
-
-kubectl config set-credentials $USER --token=$TOKEN
-
-kubectl config set-context $CONTEXT_NAME --cluster=$CLUSTER_NAME --user=$USER
-kubectl config use-context $CONTEXT_NAME
-
-# To view your current config file
-kubectl config view
-```
+**Logon every Nodes**
 
 **Put `kubeconfig` (~/.kube/config) on every node which run `kubelet`**
 
@@ -61,11 +84,11 @@ IP=172.17.8.101 NUM=1 vagrant ssh
 
 # Now you should be logged on the Node machine
 sudo mkdir -p /var/lib/kubelet/ /var/lib/kube-proxy
-sudo touch /var/lib/kubelet/kubeconfig /var/lib/kube-proxy/kubeconfig
+sudo touch /var/lib/kubelet/kubeconfig
 
 # copy and paste the value of ~/.kube/config from host machine
 sudo vi /var/lib/kubelet/kubeconfig
-sudo vi /var/lib/kube-proxy/kubeconfig
+sudo cp /var/lib/kubelet/kubeconfig /var/lib/kube-proxy/kubeconfig
 ```
 
 **TL;DR**

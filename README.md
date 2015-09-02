@@ -132,12 +132,11 @@ INITIAL_CLUSTER_ID=$(ROLE=master vagrant ssh -c 'cat /etc/machine-id')
 initial-cluster: "${INITIAL_CLUSTER_ID}=http://${MASTER_IP}:2380"
 
 # Actually value is being saved at `/etc/systemd/system/etcd2.service.d/initial-cluster.conf`
-
-# Need to follow [setup-security-models.md](./docs/setup-security-models.md)
-# to setup `ca.crt`, `token`, etc
 ```
 
 Find more [details](./docs/start-master-and-node-machine.md)
+
+**Need to follow [setup-security-models.md](./docs/setup-security-models.md) guide to setup `ca.crt`, `token`, etc**
 
 
 **Node machine**
@@ -148,6 +147,8 @@ IP=172.17.8.102 NUM=2 vagrant up
 ```
 
 Find more [details](./docs/start-master-and-node-machine.md)
+
+**Need to follow [setup-security-models.md](./docs/setup-security-models.md) guide to setup `kubeconfig` on each node**
 
 
 **Install `etcdctl` `fleetctl` `kubectl` on host machine**
