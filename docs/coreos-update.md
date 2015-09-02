@@ -12,21 +12,23 @@ cat /etc/machine-id
 cat /etc/coreos/update.conf
 ```
 
-Lock the machine for any active activity
+Lock the machine for any active activity. [Locksmith](https://github.com/coreos/locksmith)
 
 ```bash
+update_engine_client -status
+
 # check the status of the current machine
-sudo locksmithctl status
+locksmithctl status
 
 # lock the current machine
-sudo locksmithctl lock
+locksmithctl lock
 ```
 
 Manually Triggering an Update
 
 ```bash
 
-# nitiating update check and install.
+# Initiating update check and install.
 update_engine_client -check_for_update
 
 # check the current statue of the update
@@ -37,11 +39,24 @@ update_engine_client -status
 # /usr/bin/update_engine_client -update
 
 # if you run `locksmithctl lock`, you need to unlock
-sudo locksmithctl unlock
-sudo locksmithctl reboot
+locksmithctl unlock
+
+# reboot locksmith if it is needed, but it needs to be root
+# locksmithctl reboot
 
 # reboot the system
 sudo reboot
+```
+
+**Unlock Holders** do it if anything bad happens
+
+If a machine may go away permanently or semi-permanently while holding a reboot lock. A system administrator can clear the lock of a specific machine using the unlock command:
+
+```bash
+# check the current status of locksmith status
+etcdctl get coreos.com/updateengine/rebootlock/semaphore
+
+locksmithctl unlock MACHINE_ID
 ```
 
 ```bash
