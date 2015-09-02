@@ -91,3 +91,15 @@ write_files:
       CADVISOR_PORT=4194
       HEALTHZ_PORT=10248
       INSECURE_PORT=8080
+
+  - path: /var/lib/kubelet/kubeconfig
+    permissions: 0644
+    owner: root
+    content: |
+      ### KUBE CONFIG GOES HERE ###
+
+  - path: /var/lib/kube-proxy/kubeconfig
+    permissions: 0644
+    owner: root
+    content: |
+      ### KUBE CONFIG GOES HERE ###
