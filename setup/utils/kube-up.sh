@@ -19,12 +19,14 @@ fleetctl start units/kube-controller-manager.service
 fleetctl start units/kube-scheduler.service
 
 
+
+kubectl get secret --all-namespaces
+kubectl delete secret/SECRET_NAME
+
+kubectl get secret --all-namespaces
+kubectl describe secret/SECRET_NAME
+
+
 # Kubernetes nodes
 
-fleetctl start units/flanneld.service
-
-fleetctl start units/docker.service
-
-fleetctl start units/kube-proxy.service
-
-fleetctl start units/kube-kubelet.service
+fleetctl start units/flanneld.service units/docker.service units/kube-proxy.service units/kube-kubelet.service

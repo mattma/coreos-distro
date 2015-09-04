@@ -196,6 +196,14 @@ Copy and paste *one-liner* or *longer-format* of environment variables.
 
 ```bash
 # ./setup/utils/kube-up.sh
+
+kubectl get secret --all-namespaces
+
+kubectl delete secret/SECRET_NAME
+
+kubectl get secret --all-namespaces
+kubectl describe secret/SECRET_NAME
+# should have two fields in Data: token and ca.crt
 ```
 
     - start the kubernetes control plane servcies
