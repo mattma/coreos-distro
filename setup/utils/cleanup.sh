@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+fleetctl destroy kube-apiserver kube-controller-manager kube-scheduler flanneld docker kube-kubelet kube-proxy
+
+fleetctl list-units
+
 # Remove the existing VM in the cluster
 
 IP=172.17.8.101 NUM=1 vagrant destroy -f
