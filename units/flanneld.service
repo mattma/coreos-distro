@@ -1,8 +1,8 @@
 [Unit]
 Description=flannel is an etcd backed network fabric for containers
 Documentation=https://github.com/coreos/flannel
-After=network-online.target
-Wants=network-online.target
+After=network-online.target kube-apiserver.service
+Wants=network-online.target kube-apiserver.service
 
 [Service]
 Type=notify

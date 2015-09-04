@@ -150,6 +150,14 @@ Replace the `TOKEN` value with value from step 1. and update the environment var
     - copy/paste keys from `setup/tmp/kubernetes/server.keys` to `/srv/kubernetes/server.keys`
     - use generated token and username to replace values in `/srv/kubernetes/tokens.csv`
 
+```bash
+cat ./setup/tmp/kubernetes/ca.crt
+cat ./setup/tmp/kubernetes/server.crt
+cat ./setup/tmp/kubernetes/server.key
+
+echo $TOKEN
+```
+
 5. Spin up Master Node
 
 ```bash

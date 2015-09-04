@@ -104,10 +104,9 @@ write_files:
       SERVER_CERT_PATH=/srv/kubernetes/server.crt
       SERVER_PRIVATE_KEY_PATH=/srv/kubernetes/server.key
       TOKEN_AUTH_PATH=/srv/kubernetes/tokens.csv
+      KUBECONFIG_PATH=/srv/kubernetes/kubeconfig
       RUNTIME_CONFIG=api/v1
       POD_EVICTION_TIMEOUT=30s
-      INSECURE_BIND_ADDRESS=0.0.0.0
-      INSECURE_PORT=8080
       CLOUD_PROVIDER=
 
   - path: /srv/kubernetes/ca.crt

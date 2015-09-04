@@ -1,8 +1,8 @@
 [Unit]
 Description=Kubernetes Kubelet
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes,http://kubernetes.io/v1.0/docs/admin/kubelet.html
-Requires=setup-network-environment.service flanneld.service
-After=setup-network-environment.service flanneld.service
+Requires=setup-network-environment.service flanneld.service docker.service
+After=setup-network-environment.service flanneld.service docker.service
 
 [Service]
 EnvironmentFile=/etc/network-environment

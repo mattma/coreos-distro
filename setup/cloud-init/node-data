@@ -81,7 +81,7 @@ write_files:
       CLUSTER_DNS=10.100.0.10
       CLUSTER_DOMAIN=cluster.local
       FLANNELD_NETWORK=10.244.0.0/16
-      FLANNELD_BACKEND_TYPE=vxlan
+      FLANNELD_BACKEND_TYPE=host-gw
       MANIFESTS_PATH=/opt/kubernetes/manifests/
       KUBECONFIG_KUBELET_PATH=/var/lib/kubelet/kubeconfig
       KUBECONFIG_PROXY_PATH=/var/lib/kube-proxy/kubeconfig

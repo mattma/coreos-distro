@@ -1,8 +1,8 @@
 [Unit]
 Description=Kubernetes Proxy
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes,http://kubernetes.io/v1.0/docs/admin/kube-proxy.html
-Requires=setup-network-environment.service flanneld.service
-After=setup-network-environment.service flanneld.service
+Requires=setup-network-environment.service flanneld.service docker.service
+After=setup-network-environment.service flanneld.service docker.service
 
 [Service]
 EnvironmentFile=/etc/sysconfig/kubernetes-config
@@ -11,7 +11,6 @@ ExecStartPre=-/usr/bin/rm /opt/bin/kube-proxy
 ExecStartPre=/usr/bin/curl -L -o /opt/bin/kube-proxy -z /opt/bin/kube-proxy https://storage.googleapis.com/kubernetes-release/release/v${KUBERNETES_VERSION}/bin/linux/amd64/kube-proxy
 ExecStartPre=/usr/bin/chmod +x /opt/bin/kube-proxy
 ExecStart=/opt/bin/kube-proxy \
-  --master=https://${MASTER_IP}:${SECURE_PORT} \
   --kubeconfig=${KUBECONFIG_PROXY_PATH} \
   --logtostderr=true
 Restart=always
