@@ -16,7 +16,7 @@ ExecStart=/usr/bin/docker run \
   -v /etc/ssl:/etc/ssl \
   mattma/kube-controller-manager:${KUBERNETES_VERSION} \
   --cluster_name=${CLUSTER_NAME} \
-  --kubeconfig=${KUBECONFIG_PATH} \
+  --master=http://127.0.0.1:8080 \
   --root-ca-file=${CLUSTER_CA_FILE_PATH} \
   --service_account_private_key_file=${SERVER_PRIVATE_KEY_PATH} \
   --pod_eviction_timeout=${POD_EVICTION_TIMEOUT} \

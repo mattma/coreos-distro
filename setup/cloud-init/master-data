@@ -131,12 +131,6 @@ write_files:
       ### KEY GOES HERE
       -----END RSA PRIVATE KEY-----
 
-  - path: /srv/kubernetes/kubeconfig
-    permissions: 0644
-    owner: root
-    content: |
-      ### KUBE CONFIG GOES HERE ###
-
   - path: /srv/kubernetes/tokens.csv
     permissions: 0644
     owner: root

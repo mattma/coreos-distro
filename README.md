@@ -148,7 +148,6 @@ Replace the `TOKEN` value with value from step 1. and update the environment var
     - copy/paste certs from `setup/tmp/kubernetes/ca.crt` to `/srv/kubernetes/ca.crt`
     - copy/paste server certs from `setup/tmp/kubernetes/server.crt` to `/srv/kubernetes/server.crt`
     - copy/paste keys from `setup/tmp/kubernetes/server.keys` to `/srv/kubernetes/server.keys`
-    - copy/paste server kubeconfig from `~/.kube/config` to `/srv/kubernetes/kubeconfig`
     - use generated token and username to replace values in `/srv/kubernetes/tokens.csv`
 
 ```bash
@@ -196,8 +195,12 @@ Copy and paste *one-liner* or *longer-format* of environment variables.
 9. Bring up the cluster
 
 ```bash
-./setup/utils/kube-up.sh
+# ./setup/utils/kube-up.sh
 ```
+
+    - start the kubernetes control plane servcies
+    - delete the secrets
+    - start the kubernetes nodes services
 
 10. Start dns service. SkyDns controller and service
 

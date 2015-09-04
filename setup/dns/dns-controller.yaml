@@ -39,8 +39,8 @@ spec:
             memory: 50Mi
         args:
         # command = "/kube2sky"
-        - -kube_master_url=http://172.17.8.100:8080
-        - -domain=cluster.local
+        # --kubecfg_file: /var/lib/kubelet/kubeconfig
+        --domain: cluster.local
       - name: skydns
         image: gcr.io/google_containers/skydns:2015-03-11-001
         resources:
@@ -49,7 +49,7 @@ spec:
             memory: 50Mi
         args:
         # command = "/skydns"
-        - -machines=http://localhost:2379
+        - -machines=http://127.0.0.1:2379,http://127.0.0.1:4001
         - -addr=0.0.0.0:53
         - -domain=cluster.local
         - -nameservers=8.8.8.8:53,8.8.4.4:53

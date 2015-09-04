@@ -26,7 +26,7 @@ Global=true
 MachineMetadata=role=master
 ```
 
-4. When machine is in the NotReady status.
+4. When machine is in the NotReady status. Reason: `container runtime is down`
 
 Then I checked `kubelet` status
 
