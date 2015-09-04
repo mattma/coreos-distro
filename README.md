@@ -148,6 +148,7 @@ Replace the `TOKEN` value with value from step 1. and update the environment var
     - copy/paste certs from `setup/tmp/kubernetes/ca.crt` to `/srv/kubernetes/ca.crt`
     - copy/paste server certs from `setup/tmp/kubernetes/server.crt` to `/srv/kubernetes/server.crt`
     - copy/paste keys from `setup/tmp/kubernetes/server.keys` to `/srv/kubernetes/server.keys`
+    - copy/paste server kubeconfig from `~/.kube/config` to `/srv/kubernetes/kubeconfig`
     - use generated token and username to replace values in `/srv/kubernetes/tokens.csv`
 
 ```bash
