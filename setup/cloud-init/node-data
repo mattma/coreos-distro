@@ -93,13 +93,13 @@ write_files:
       INSECURE_PORT=8080
 
   - path: /var/lib/kubelet/kubeconfig
-    permissions: 0644
+    permissions: 0660
     owner: root
     content: |
       ### KUBE CONFIG GOES HERE ###
 
   - path: /var/lib/kube-proxy/kubeconfig
-    permissions: 0644
+    permissions: 0660
     owner: root
     content: |
       ### KUBE CONFIG GOES HERE ###

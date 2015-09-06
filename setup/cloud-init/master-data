@@ -101,7 +101,7 @@ write_files:
       ADMISSION_CONTROL=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota
       CLUSTER_NAME=kube-rocks
       CLUSTER_CA_FILE_PATH=/srv/kubernetes/ca.crt
-      SERVER_CERT_PATH=/srv/kubernetes/server.crt
+      SERVER_CERT_PATH=/srv/kubernetes/server.cert
       SERVER_PRIVATE_KEY_PATH=/srv/kubernetes/server.key
       TOKEN_AUTH_PATH=/srv/kubernetes/tokens.csv
       KUBECONFIG_PATH=/srv/kubernetes/kubeconfig
@@ -110,29 +110,29 @@ write_files:
       CLOUD_PROVIDER=
 
   - path: /srv/kubernetes/ca.crt
-    permissions: 0644
+    permissions: 0660
     owner: root
     content: |
       -----BEGIN CERTIFICATE-----
       ### CERT GOES HERE
       -----END CERTIFICATE-----
 
-  - path: /srv/kubernetes/server.crt
-    permissions: 0644
+  - path: /srv/kubernetes/server.cert
+    permissions: 0660
     owner: root
     content: |
       ### CERT GOES HERE
 
   - path: /srv/kubernetes/server.key
-    permissions: 0644
+    permissions: 0660
     owner: root
     content: |
       -----BEGIN RSA PRIVATE KEY-----
-      ### KEY GOES HERE
+      ### CERT GOES HERE
       -----END RSA PRIVATE KEY-----
 
   - path: /srv/kubernetes/tokens.csv
-    permissions: 0644
+    permissions: 0660
     owner: root
     content: |
       TOKEN,USERNAME,USERID

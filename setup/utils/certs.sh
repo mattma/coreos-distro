@@ -60,6 +60,7 @@ function create-certs {
   local octets=($(echo "$SERVICE_CLUSTER_IP_RANGE" | sed -e 's|/.*||' -e 's/\./ /g'))
   ((octets[3]+=1))
   local -r service_ip=$(echo "${octets[*]}" | sed 's/ /./g')
+
   local -r sans="IP:${cert_ip},IP:${service_ip},DNS:kubernetes,DNS:kubernetes.default,DNS:kubernetes.default.svc,DNS:kubernetes.default.svc.${DNS_DOMAIN},DNS:${MASTER_NAME}"
 
   # Note: This was heavily cribbed from make-ca-cert.sh
@@ -94,7 +95,7 @@ function create-certs {
 function cherry-pick-certs {
   mkdir -p ${KUBE_TEMP}/kubernetes/
   cp ${KUBE_TEMP}/easy-rsa-master/easyrsa3/pki/ca.crt ${KUBE_TEMP}/kubernetes/ca.crt
-  cp ${KUBE_TEMP}/easy-rsa-master/easyrsa3/pki/issued/kube-master.crt ${KUBE_TEMP}/kubernetes/server.crt
+  cp ${KUBE_TEMP}/easy-rsa-master/easyrsa3/pki/issued/kube-master.crt ${KUBE_TEMP}/kubernetes/server.cert
   cp ${KUBE_TEMP}/easy-rsa-master/easyrsa3/pki/private/kube-master.key ${KUBE_TEMP}/kubernetes/server.key
 }
 

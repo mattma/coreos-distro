@@ -5,9 +5,9 @@ CLUSTER_NAME=kube-rocks
 CA_CERT=./setup/tmp/kubernetes/ca.crt
 MASTER_IP=https://172.17.8.100:6443
 USER=mattma
-CLI_CERT=./setup/tmp/kubernetes/server.crt
+CLI_CERT=./setup/tmp/kubernetes/server.cert
 CLI_KEY=./setup/tmp/kubernetes/server.key
-TOKEN=aj4SbFw4Wk4TBh1iqhMuAj2lcS9G2Me9
+TOKEN=O5PEhSll0GJBhpeEUMSZJXPjIhr0zscH
 CONTEXT_NAME=rocks
 
 # setup the cluster
@@ -17,7 +17,7 @@ kubectl config set-cluster $CLUSTER_NAME --certificate-authority=$CA_CERT --embe
 kubectl config set-credentials $USER --token=$TOKEN
 
 # setup the context for the user and cluster
-kubectl config set-context $CONTEXT_NAME --cluster=$CLUSTER_NAME --user=$USER
+kubectl config set-context $CONTEXT_NAME --cluster=$CLUSTER_NAME --user=$USER --namespace=default
 
 # use the context
 kubectl config use-context $CONTEXT_NAME

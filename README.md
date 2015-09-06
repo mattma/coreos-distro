@@ -152,7 +152,7 @@ Replace the `TOKEN` value with value from step 1. and update the environment var
 
 ```bash
 cat ./setup/tmp/kubernetes/ca.crt
-cat ./setup/tmp/kubernetes/server.crt
+cat ./setup/tmp/kubernetes/server.cert
 cat ./setup/tmp/kubernetes/server.key
 
 echo $TOKEN
