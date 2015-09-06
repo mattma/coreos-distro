@@ -74,10 +74,10 @@ write_files:
     permissions: 0644
     owner: root
     content: |
-      KUBERNETES_VERSION=1.0.4
+      KUBERNETES_VERSION=1.0.5
       MASTER_IP=172.17.8.100
       BIND_ADDRESS=0.0.0.0
-      SECURE_PORT=6443
+      SECURE_PORT=443
       CLUSTER_DNS=10.100.0.10
       CLUSTER_DOMAIN=cluster.local
       FLANNELD_NETWORK=10.244.0.0/16
