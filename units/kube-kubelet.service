@@ -25,6 +25,7 @@ ExecStart=/opt/bin/kubelet \
   --config=${MANIFESTS_PATH} \
   --cadvisor_port=${CADVISOR_PORT} \
   --healthz_bind_address=${BIND_ADDRESS} \
+  --root-dir=/root \
   --healthz_port=${HEALTHZ_PORT}
 Restart=always
 RestartSec=10s
