@@ -120,51 +120,40 @@ Then you can then use the `docker` command from your local shell by setting `DOC
 
 ## Quick Start Guide
 
-1. Generate Token and remember it
-
-```
-TOKEN=$(dd if=/dev/urandom bs=128 count=1 2>/dev/null | base64 | tr -d "=+/" | dd bs=32 count=1 2>/dev/null)
-
-echo $TOKEN
-```
-
-2. Genereate Certs and Keys
+1. Genereate Certs and Keys
 
 ```bash
 ./setup/utils/certs.sh
 ```
 
-3. Generate Certs and Keys
+2. Generate Kubeconfig
 
-Replace the `TOKEN` value with value from step 1. and update the environment variable values as needed.
+update the environment variable values as needed.
 
 ```bash
 ./setup/utils/kube-config.sh
 ```
 
-4. Modify values in `cloud-init/master-data`
+3. Modify values in `cloud-init/master-data`
 
     - modify Environment variables in `/etc/sysconfig/kubernetes-config`
     - copy/paste certs from `setup/tmp/kubernetes/ca.crt` to `/srv/kubernetes/ca.crt`
     - copy/paste server certs from `setup/tmp/kubernetes/server.crt` to `/srv/kubernetes/server.crt`
     - copy/paste keys from `setup/tmp/kubernetes/server.keys` to `/srv/kubernetes/server.keys`
-    - use generated token and username to replace values in `/srv/kubernetes/tokens.csv`
 
 ```bash
 cat ./setup/tmp/kubernetes/ca.crt
 cat ./setup/tmp/kubernetes/server.cert
 cat ./setup/tmp/kubernetes/server.key
-
-echo $TOKEN
 ```
 
-5. Spin up Master Node
+4. Spin up Master Node
 
 ```bash
 ROLE=master IP=172.17.8.100 vagrant up
 ```
 
-6. Modify values in `cloud-init/node-data`
+5. Modify values in `cloud-init/node-data`
 
 - update values in *etcd2.initial-cluster* field
 
@@ -177,14 +166,14 @@ cat ~/.kube/config
     - copy/paste server kubeconfig from `~/.kube/config` to `/var/lib/kubelet/kubeconfig`
     - copy/paste server kubeconfig from `~/.kube/config` to `/var/lib/kube-proxy/kubeconfig`
 
-7. Spin up Nodes
+6. Spin up Nodes
 
 ```bash
 IP=172.17.8.101 NUM=1 vagrant up
 IP=172.17.8.102 NUM=2 vagrant up
 ```
 
-8. Setup environment variables
+7. Setup environment variables
 
 ```bash
 ./setup/utils/init-env-bin.sh
@@ -192,7 +181,7 @@ IP=172.17.8.102 NUM=2 vagrant up
 
 Copy and paste *one-liner* or *longer-format* of environment variables.
 
-9. Bring up the cluster
+8. Bring up the cluster
 
 ```bash
 # ./setup/utils/kube-up.sh
@@ -210,7 +199,7 @@ kubectl describe secret/SECRET_NAME
     - delete the secrets
     - start the kubernetes nodes services
 
-10. Start dns service. SkyDns controller and service
+9. Start dns service. SkyDns controller and service
 
 ```bash
 kubectl create -f setup/dns/dns-controller.yaml
@@ -236,6 +225,24 @@ initial-cluster: "${INITIAL_CLUSTER_ID}=http://${MASTER_IP}:2380"
 Find more [details](./docs/start-master-and-node-machine.md)
 
 **Need to follow [setup-security-models.md](./docs/setup-security-models.md) guide to setup `ca.crt`, `token`, etc**
+
+- Generate Token and remember it
+
+```
+TOKEN=$(dd if=/dev/urandom bs=128 count=1 2>/dev/null | base64 | tr -d "=+/" | dd bs=32 count=1 2>/dev/null)
+echo $TOKEN
+```
+
+Use generated token and username to replace values in `/srv/kubernetes/tokens.csv`
+
+```bash
+# format ex: VdqH5TUY0Nvz7pXMfK2FiJApNkdJDOAH,mattma,mattma
+-  - path: /srv/kubernetes/tokens.csv
+-    permissions: 0660
+-    owner: root
+-    content: |
+-      TOKEN,USERNAME,USERID
+```
 
 
 **Node machine**

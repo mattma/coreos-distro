@@ -104,7 +104,6 @@ write_files:
       SERVER_CERT_PATH=/srv/kubernetes/server.cert
       SERVER_PRIVATE_KEY_PATH=/srv/kubernetes/server.key
       TOKEN_AUTH_PATH=/srv/kubernetes/tokens.csv
-      KUBECONFIG_PATH=/srv/kubernetes/kubeconfig
       RUNTIME_CONFIG=api/v1
       POD_EVICTION_TIMEOUT=30s
       CLOUD_PROVIDER=
@@ -130,9 +129,3 @@ write_files:
       -----BEGIN RSA PRIVATE KEY-----
       ### CERT GOES HERE
       -----END RSA PRIVATE KEY-----
-
-  - path: /srv/kubernetes/tokens.csv
-    permissions: 0660
-    owner: root
-    content: |
-      TOKEN,USERNAME,USERID

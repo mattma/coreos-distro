@@ -7,7 +7,6 @@ MASTER_IP=https://172.17.8.100:443
 USER=mattma
 CLI_CERT=./setup/tmp/kubernetes/kubecfg.cert
 CLI_KEY=./setup/tmp/kubernetes/kubecfg.key
-TOKEN=VdqH5TUY0Nvz7pXMfK2FiJApNkdJDOAH
 CONTEXT_NAME=rocks
 
 # setup the cluster
