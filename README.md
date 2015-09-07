@@ -124,9 +124,9 @@ Then you can then use the `docker` command from your local shell by setting `DOC
 
 ```bash
 # Start master machine
-ROLE=master IP=172.17.8.100 vagrant up
+vagrant up kube-master
 
-ROLE=master vagrant ssh -c 'cat /etc/systemd/system/etcd2.service.d/initial-cluster.conf'
+vagrant ssh kube-master -c 'cat /etc/systemd/system/etcd2.service.d/initial-cluster.conf'
 # open `setup/cloud-init/node-data` file to replace the value in `coreos/etcd2/initial-cluster`. ex:
 initial-cluster: "e0100b6a52d049aeacf52b529d13d006=http://172.17.8.100:2380"
 ```
@@ -137,8 +137,8 @@ Find more [details](./docs/start-master-and-node-machine.md)
 **Node machine**
 
 ```bash
-IP=172.17.8.101 NUM=1 vagrant up
-IP=172.17.8.102 NUM=2 vagrant up
+export NUM_NODES=2
+vagrant up
 ```
 
 Find more [details](./docs/start-master-and-node-machine.md)

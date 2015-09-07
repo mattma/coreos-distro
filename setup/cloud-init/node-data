@@ -8,7 +8,7 @@ coreos:
     proxy: on
     # replace it with actual names and ips when before bootstrapping
     # initial-cluster: ${NAME1=PRIVATE_IP1,NAME2=PRIVATE_IP2,NAME3=PRIVATE_IP3}
-    initial-cluster: "25183d20c0ad47608a627c764f034778=http://172.17.8.100:2380"
+    initial-cluster: "6d8d9d9299154a1f9a94d751f76e31ec=http://172.17.8.100:2380"
 
   fleet:
     public-ip: $public_ipv4
