@@ -107,13 +107,13 @@ write_files:
       ### KUBE CONFIG GOES HERE ###
 
   - path: /var/lib/kubelet/server.cert
-    permissions: 0444
+    permissions: 0660
     owner: root
     content: |
       ### CERT GOES HERE
 
   - path: /var/lib/kubelet/server.key
-    permissions: 0400
+    permissions: 0660
     owner: root
     content: |
       -----BEGIN RSA PRIVATE KEY-----
@@ -121,13 +121,13 @@ write_files:
       -----END RSA PRIVATE KEY-----
 
   - path: /var/lib/kube-proxy/server.cert
-    permissions: 0444
+    permissions: 0660
     owner: root
     content: |
       ### CERT GOES HERE
 
   - path: /var/lib/kube-proxy/server.key
-    permissions: 0400
+    permissions: 0660
     owner: root
     content: |
       -----BEGIN RSA PRIVATE KEY-----
