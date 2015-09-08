@@ -4,7 +4,7 @@ set -e
 IP=172.17.8.100
 PLATFORM="darwin"
 ETCD_VERSION=2.1.1
-FLEET_VERSION=0.11.2
+FLEET_VERSION=0.11.5
 KUBERNETES_VERSION=1.0.4
 
 # etcdctl binary installation
