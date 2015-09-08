@@ -8,7 +8,7 @@ coreos:
     proxy: on
     # replace it with actual names and ips when before bootstrapping
     # initial-cluster: ${NAME1=PRIVATE_IP1,NAME2=PRIVATE_IP2,NAME3=PRIVATE_IP3}
-    initial-cluster: "3f62eb2a59964bd18b9522491529d7b4=http://172.17.8.100:2380"
+    initial-cluster: "6aa8f2c1ce7a49ba9adecd84117e596e=http://172.17.8.100:2380"
 
   fleet:
     public-ip: $public_ipv4
@@ -117,7 +117,7 @@ write_files:
     owner: root
     content: |
       -----BEGIN RSA PRIVATE KEY-----
-      ### CERT GOES HERE
+      ### KEY GOES HERE
       -----END RSA PRIVATE KEY-----
 
   - path: /var/lib/kube-proxy/server.cert
@@ -131,5 +131,5 @@ write_files:
     owner: root
     content: |
       -----BEGIN RSA PRIVATE KEY-----
-      ### CERT GOES HERE
+      ### KEY GOES HERE
       -----END RSA PRIVATE KEY-----

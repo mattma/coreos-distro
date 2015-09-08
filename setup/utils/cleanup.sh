@@ -27,4 +27,4 @@ rm -rf ~/.kube/config
 
 # Cleanup the certs folder
 
-# ./setup/utils/certs-cleanup.sh
+./setup/utils/certs-cleanup.sh
