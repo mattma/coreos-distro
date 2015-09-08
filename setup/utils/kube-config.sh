@@ -3,7 +3,7 @@ set -e
 
 CLUSTER_NAME=kube-rocks
 CA_CERT=./setup/tmp/kubernetes/ca.crt
-MASTER_IP=https://172.17.8.100:443
+MASTER_IP=https://172.17.8.100:6443
 USER=mattma
 CLI_CERT=./setup/tmp/kubernetes/kubecfg.cert
 CLI_KEY=./setup/tmp/kubernetes/kubecfg.key
