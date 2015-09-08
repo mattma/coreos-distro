@@ -85,6 +85,8 @@ write_files:
       MANIFESTS_PATH=/opt/kubernetes/manifests/
       KUBECONFIG_KUBELET_PATH=/var/lib/kubelet/kubeconfig
       KUBECONFIG_PROXY_PATH=/var/lib/kube-proxy/kubeconfig
+      KUBELET_CERT_PATH=/var/lib/kubelet/server.cert
+      KUBELET_PRIVATE_KEY_PATH=/var/lib/kubelet/server.key
       ETCD_SERVER_PORT_1=2379
       ETCD_SERVER_PORT_2=4001
       KUBELET_PORT=10250
@@ -103,3 +105,31 @@ write_files:
     owner: root
     content: |
       ### KUBE CONFIG GOES HERE ###
+
+  - path: /var/lib/kubelet/server.cert
+    permissions: 0444
+    owner: root
+    content: |
+      ### CERT GOES HERE
+
+  - path: /var/lib/kubelet/server.key
+    permissions: 0400
+    owner: root
+    content: |
+      -----BEGIN RSA PRIVATE KEY-----
+      ### CERT GOES HERE
+      -----END RSA PRIVATE KEY-----
+
+  - path: /var/lib/kube-proxy/server.cert
+    permissions: 0444
+    owner: root
+    content: |
+      ### CERT GOES HERE
+
+  - path: /var/lib/kube-proxy/server.key
+    permissions: 0400
+    owner: root
+    content: |
+      -----BEGIN RSA PRIVATE KEY-----
+      ### CERT GOES HERE
+      -----END RSA PRIVATE KEY-----

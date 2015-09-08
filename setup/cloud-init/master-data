@@ -109,7 +109,7 @@ write_files:
       CLOUD_PROVIDER=
 
   - path: /srv/kubernetes/ca.crt
-    permissions: 0660
+    permissions: 0444
     owner: root
     content: |
       -----BEGIN CERTIFICATE-----
@@ -117,15 +117,28 @@ write_files:
       -----END CERTIFICATE-----
 
   - path: /srv/kubernetes/server.cert
-    permissions: 0660
+    permissions: 0444
     owner: root
     content: |
       ### CERT GOES HERE
 
   - path: /srv/kubernetes/server.key
-    permissions: 0660
+    permissions: 0400
     owner: root
     content: |
       -----BEGIN RSA PRIVATE KEY-----
       ### CERT GOES HERE
       -----END RSA PRIVATE KEY-----
+
+  - path: /srv/kubernetes/policy.jsonl
+    permissions: 0644
+    owner: root
+    content: |
+      {"user":"admin"}
+      {"user":"scheduler", "readonly": true, "resource": "pods"}
+      {"user":"scheduler", "resource": "bindings"}
+      {"user":"kubelet",  "readonly": true, "resource": "pods"}
+      {"user":"kubelet",  "readonly": true, "resource": "services"}
+      {"user":"kubelet",  "readonly": true, "resource": "endpoints"}
+      {"user":"kubelet", "resource": "events"}
+

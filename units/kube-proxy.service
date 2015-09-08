@@ -13,7 +13,8 @@ ExecStartPre=/usr/bin/chmod +x /opt/bin/kube-proxy
 ExecStart=/opt/bin/kube-proxy \
   --master=https://${MASTER_IP}:${SECURE_PORT} \
   --kubeconfig=${KUBECONFIG_PROXY_PATH} \
-  --logtostderr=true
+  --logtostderr=true \
+  --v=1
 Restart=always
 RestartSec=10s
 
