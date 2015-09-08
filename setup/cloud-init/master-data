@@ -111,7 +111,7 @@ write_files:
 
   - path: /srv/kubernetes/ca.crt
     permissions: 0660
-    owner: root:kube-cert
+    owner: root
     content: |
       -----BEGIN CERTIFICATE-----
       ### CERT GOES HERE
@@ -119,13 +119,13 @@ write_files:
 
   - path: /srv/kubernetes/server.cert
     permissions: 0660
-    owner: root:kube-cert
+    owner: root
     content: |
       ### CERT GOES HERE
 
   - path: /srv/kubernetes/server.key
     permissions: 0660
-    owner: root:kube-cert
+    owner: root
     content: |
       -----BEGIN RSA PRIVATE KEY-----
       ### KEY GOES HERE
@@ -156,4 +156,3 @@ write_files:
       {"user":"kubelet",  "readonly": true, "resource": "services"}
       {"user":"kubelet",  "readonly": true, "resource": "endpoints"}
       {"user":"kubelet", "resource": "events"}
-
