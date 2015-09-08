@@ -97,8 +97,10 @@ function cherry-pick-certs {
   cp ${KUBE_TEMP}/easy-rsa-master/easyrsa3/pki/ca.crt ${KUBE_TEMP}/kubernetes/ca.crt
   cp ${KUBE_TEMP}/easy-rsa-master/easyrsa3/pki/issued/kube-master.crt ${KUBE_TEMP}/kubernetes/server.cert
   cp ${KUBE_TEMP}/easy-rsa-master/easyrsa3/pki/issued/kubecfg.crt ${KUBE_TEMP}/kubernetes/kubecfg.cert
+  cp ${KUBE_TEMP}/easy-rsa-master/easyrsa3/pki/issued/kubelet.crt ${KUBE_TEMP}/kubernetes/kubelet.cert
   cp ${KUBE_TEMP}/easy-rsa-master/easyrsa3/pki/private/kube-master.key ${KUBE_TEMP}/kubernetes/server.key
   cp ${KUBE_TEMP}/easy-rsa-master/easyrsa3/pki/private/kubecfg.key ${KUBE_TEMP}/kubernetes/kubecfg.key
+  cp ${KUBE_TEMP}/easy-rsa-master/easyrsa3/pki/private/kubelet.key ${KUBE_TEMP}/kubernetes/kubelet.key
 }
 
 create-certs "${MASTER_IP}"
