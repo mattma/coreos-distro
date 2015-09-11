@@ -39,7 +39,7 @@ coreos:
         Requires=network-online.target
         After=network-online.target
         [Service]
-        ExecStartPre=/usr/bin/mkdir -p /opt/bin
+        ExecStartPre=-/usr/bin/mkdir -p /opt/bin
         ExecStartPre=/usr/bin/wget -P /opt/bin https://github.com/kelseyhightower/setup-network-environment/releases/download/v1.0.0/setup-network-environment
         ExecStartPre=/usr/bin/chmod +x /opt/bin/setup-network-environment
         ExecStart=/opt/bin/setup-network-environment
@@ -90,7 +90,7 @@ write_files:
     permissions: 0644
     owner: root
     content: |
-      KUBERNETES_VERSION=1.0.4
+      KUBERNETES_VERSION=1.0.5
       SECURE_BIND_ADDRESS=0.0.0.0
       SECURE_PORT=6443
       SERVICE_CLUSTER_IP_RANGE=10.100.0.0/16
