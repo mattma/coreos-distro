@@ -12,7 +12,8 @@ if [ ! -f /etc/systemd/system/etcd2.service.d/initial-cluster.conf ]; then
   mkdir -p /etc/systemd/system/etcd2.service.d
 
   echo "[Service]
-  Environment=\"ETCD_INITIAL_CLUSTER=${MachineID}=${AdvertisePeerURL}\"
+  Environment=\"ETCD_INITIAL_CLUSTER=${MachineID}=http://172.17.8.100:2380\"
+  # Environment=\"ETCD_INITIAL_CLUSTER=${MachineID}=${AdvertisePeerURL}\"
   "> /etc/systemd/system/etcd2.service.d/initial-cluster.conf
 
   systemctl daemon-reload
