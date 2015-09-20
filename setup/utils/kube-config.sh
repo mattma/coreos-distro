@@ -4,7 +4,6 @@ set -e
 CLUSTER_NAME=kube-rocks
 CA_CERT=./setup/tmp/kubernetes/ca.crt
 MASTER_IP=https://172.17.8.100:6443
-USER=admin
 CLI_CERT=./setup/tmp/kubernetes/kubecfg.cert
 CLI_KEY=./setup/tmp/kubernetes/kubecfg.key
 KUBELET_CERT=./setup/tmp/kubernetes/kubelet.cert
@@ -19,9 +18,11 @@ echo ''
 if [ -n "$1" ] && [ $1 = 'KUBELET' ]
 then
   echo 'Setup KUBELET config'
+  USER=admin
   kubectl config set-credentials $USER --certificate-authority=$CA_CERT --client-certificate=$KUBELET_CERT --client-key=$KUBELET_KEY --embed-certs=true
 else
   echo 'Setup CLI config'
+  USER=kubelet
   kubectl config set-credentials $USER --certificate-authority=$CA_CERT --client-certificate=$CLI_CERT --client-key=$CLI_KEY --embed-certs=true
 fi
 echo ''

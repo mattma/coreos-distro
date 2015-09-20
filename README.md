@@ -126,14 +126,6 @@ Then you can then use the `docker` command from your local shell by setting `DOC
 ./setup/utils/certs.sh
 ```
 
-2. Generate Kubeconfig
-
-update the environment variable values as needed.
-
-```bash
-./setup/utils/kube-config.sh
-```
-
 3. Modify values in `cloud-init/master-data`
 
     - modify Environment variables in `/etc/sysconfig/kubernetes-config`
@@ -154,6 +146,14 @@ ROLE=master IP=172.17.8.100 vagrant up
 ```
 
 5. Modify values in `cloud-init/node-data`
+
+- Generate user KUBELET's Kubeconfig
+
+update the environment variable values as needed.
+
+```bash
+./setup/utils/kube-config.sh 'KUBELET'
+```
 
 - update values in *etcd2.initial-cluster* field
 
@@ -198,6 +198,15 @@ kubectl describe secret/SECRET_NAME
     - start the kubernetes control plane servcies
     - delete the secrets
     - start the kubernetes nodes services
+
+
+* Generate user KUBECTL's Kubeconfig
+
+update the environment variable values as needed.
+
+```bash
+./setup/utils/kube-config.sh
+```
 
 9. Start dns service. SkyDns controller and service
 
