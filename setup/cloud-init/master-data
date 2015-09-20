@@ -104,8 +104,6 @@ write_files:
       CLUSTER_CA_FILE_PATH=/srv/kubernetes/ca.crt
       SERVER_CERT_PATH=/srv/kubernetes/server.cert
       SERVER_PRIVATE_KEY_PATH=/srv/kubernetes/server.key
-      KUBELET_CERT_PATH=/srv/kubernetes/kubelet.cert
-      KUBELET_PRIVATE_KEY_PATH=/srv/kubernetes/kubelet.key
       RUNTIME_CONFIG=api/v1
       POD_EVICTION_TIMEOUT=30s
       CLOUD_PROVIDER=
@@ -119,20 +117,6 @@ write_files:
       -----END CERTIFICATE-----
 
   - path: /srv/kubernetes/server.cert
-    permissions: 0660
-    owner: root
-    content: |
-      ### CERT GOES HERE
-
-  - path: /srv/kubernetes/server.key
-    permissions: 0660
-    owner: root
-    content: |
-      -----BEGIN RSA PRIVATE KEY-----
-      ### KEY GOES HERE
-      -----END RSA PRIVATE KEY-----
-
-  - path: /srv/kubernetes/kubelet.cert
     permissions: 0660
     owner: root
     content: |
