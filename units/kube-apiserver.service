@@ -18,8 +18,9 @@ ExecStart=/usr/bin/docker run \
   -v /var/run/kubernetes:/var/run/kubernetes \
   -v /var/log:/var/log \
   mattma/kube-apiserver:${KUBERNETES_VERSION} \
-  --allow_privileged=true \
-  --bind_address=${SECURE_BIND_ADDRESS} \
+  --allow-privileged=true \
+  --bind-address=${SECURE_BIND_ADDRESS} \
+  --advertise-address=${MASTER_IP} \
   --secure_port=${SECURE_PORT} \
   --service-cluster-ip-range=${SERVICE_CLUSTER_IP_RANGE} \
   --etcd_servers=http://127.0.0.1:${ETCD_SERVER_PORT_1},http://127.0.0.1:${ETCD_SERVER_PORT_2} \
@@ -29,9 +30,6 @@ ExecStart=/usr/bin/docker run \
   --client-ca-file=${CLUSTER_CA_FILE_PATH} \
   --tls-cert-file=${SERVER_CERT_PATH} \
   --tls-private-key-file=${SERVER_PRIVATE_KEY_PATH} \
-  --kubelet-certificate-authority=${CLUSTER_CA_FILE_PATH} \
-  --kubelet-client-certificate=${KUBELET_CERT_PATH} \
-  --kubelet-client-key=${KUBELET_PRIVATE_KEY_PATH} \
   --kubelet_https=true \
   --kubelet_port=10250 \
   --admission_control=${ADMISSION_CONTROL} \
