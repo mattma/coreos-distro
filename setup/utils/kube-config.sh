@@ -7,13 +7,20 @@ MASTER_IP=https://172.17.8.100:6443
 USER=admin
 CLI_CERT=./setup/tmp/kubernetes/kubecfg.cert
 CLI_KEY=./setup/tmp/kubernetes/kubecfg.key
+KUBELET_CERT=./setup/tmp/kubernetes/kubelet.cert
+KUBELET_KEY=./setup/tmp/kubernetes/kubelet.key
 CONTEXT_NAME=rocks
 
 # setup the cluster
 kubectl config set-cluster $CLUSTER_NAME --certificate-authority=$CA_CERT --embed-certs=true --server=$MASTER_IP
 
 # setup user credentials
-kubectl config set-credentials $USER --certificate-authority=$CA_CERT --client-certificate=$CLI_CERT --client-key=$CLI_KEY --embed-certs=true
+if [ -n "$1" ] && [ $1 = 'KUBELET' ]
+then
+  kubectl config set-credentials $USER --certificate-authority=$CA_CERT --client-certificate=$KUBELET_CERT --client-key=$KUBELET_KEY --embed-certs=true
+else
+  kubectl config set-credentials $USER --certificate-authority=$CA_CERT --client-certificate=$CLI_CERT --client-key=$CLI_KEY --embed-certs=true
+fi
 
 # setup the context for the user and cluster
 kubectl config set-context $CLUSTER_NAME --cluster=$CLUSTER_NAME --user=$USER
