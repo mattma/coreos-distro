@@ -3,17 +3,18 @@ set -e
 
 # Setup etcd2 conf file and start etcd2.service
 if [ ! -f /etc/systemd/system/etcd2.service.d/initial-cluster.conf ]; then
-  # get local MachineID, which is used as etcd name
-  MachineID=`cat /etc/machine-id`
+  # get local MACHINE_ID, which is used as etcd name
+  MACHINE_ID=`cat /etc/machine-id`
 
   # get AdvertisePeerURL in local etcd2.service
   AdvertisePeerURL=`systemctl cat etcd2 | grep ETCD_INITIAL_ADVERTISE_PEER_URLS | sed 's/[="]/ /g' | awk '{print $3}'`
+  ADVERTISE_IP=$(awk -F= '/COREOS_PUBLIC_IPV4/ {print $2}' /etc/environment)
 
   mkdir -p /etc/systemd/system/etcd2.service.d
 
   echo "[Service]
-  Environment=\"ETCD_INITIAL_CLUSTER=${MachineID}=http://172.17.8.100:2380\"
-  # Environment=\"ETCD_INITIAL_CLUSTER=${MachineID}=${AdvertisePeerURL}\"
+  Environment=\"ETCD_INITIAL_CLUSTER=${MACHINE_ID}=http://${ADVERTISE_IP}:2380\"
+  # Environment=\"ETCD_INITIAL_CLUSTER=${MACHINE_ID}=${AdvertisePeerURL}\"
   "> /etc/systemd/system/etcd2.service.d/initial-cluster.conf
 
   systemctl daemon-reload

@@ -120,17 +120,17 @@ Then you can then use the `docker` command from your local shell by setting `DOC
 
 ## Quick Start Guide
 
-1. Genereate Certs and Keys
+1. Pre-setup: Genereate Certs and Keys
 
 ```bash
 ./setup/utils/certs.sh
 ```
 
-3. Modify values in `cloud-init/master-data`
+2. Modify values in `cloud-init/master-data`
 
     - modify Environment variables in `/etc/sysconfig/kubernetes-config`
     - copy/paste certs from `setup/tmp/kubernetes/ca.crt` to `/srv/kubernetes/ca.crt`
-    - copy/paste server certs from `setup/tmp/kubernetes/server.crt` to `/srv/kubernetes/server.crt`
+    - copy/paste server certs from `setup/tmp/kubernetes/server.cert` to `/srv/kubernetes/server.cert`
     - copy/paste keys from `setup/tmp/kubernetes/server.keys` to `/srv/kubernetes/server.keys`
 
 ```bash
@@ -139,66 +139,72 @@ cat ./setup/tmp/kubernetes/server.cert
 cat ./setup/tmp/kubernetes/server.key
 ```
 
-4. Spin up Master Node
+3. Spin up Master Node
 
 ```bash
 ROLE=master IP=172.17.8.100 vagrant up
 ```
 
-5. Modify values in `cloud-init/node-data`
+- Setup environment variables
 
-- Generate user KUBELET's Kubeconfig
-
-update the environment variable values as needed.
+Copy and paste *one-liner* or *longer-format* of environment variables.
 
 ```bash
-./setup/utils/kube-config.sh 'KUBELET'
+./setup/utils/init-env-bin.sh
 ```
+
+4. Modify values in `cloud-init/node-data`
 
 - update values in *etcd2.initial-cluster* field
 
 ```bash
 ROLE=master vagrant ssh -c 'cat /etc/machine-id'
-
-cat ~/.kube/config
 ```
+
+- Generate user KUBELET's Kubeconfig
 
     - copy/paste server kubeconfig from `~/.kube/config` to `/var/lib/kubelet/kubeconfig`
     - copy/paste server kubeconfig from `~/.kube/config` to `/var/lib/kube-proxy/kubeconfig`
 
-6. Spin up Nodes
+update the environment variable values as needed.
+
+```bash
+rm -rf ~/.kube/config
+./setup/utils/kube-config.sh 'KUBELET'
+cat ~/.kube/config
+```
+
+```bash
+rm -rf ~/.kube/config
+./setup/utils/kube-config.sh 'KUBE_PROXY'
+cat ~/.kube/config
+```
+
+- Copy kubelet certs and key
+
+    - copy/paste server certs from `setup/tmp/kubernetes/kubelet.cert` to `/srv/kubernetes/kubelet.cert`
+    - copy/paste keys from `setup/tmp/kubernetes/kubelet.keys` to `/srv/kubernetes/kubelet.keys`
+
+5. Spin up Nodes
 
 ```bash
 IP=172.17.8.101 NUM=1 vagrant up
 IP=172.17.8.102 NUM=2 vagrant up
 ```
 
-7. Setup environment variables
-
-```bash
-./setup/utils/init-env-bin.sh
-```
-
-Copy and paste *one-liner* or *longer-format* of environment variables.
-
-8. Bring up the cluster
-
-```bash
-# ./setup/utils/kube-up.sh
-
-kubectl get secret --all-namespaces
-
-kubectl delete secret/SECRET_NAME
-
-kubectl get secret --all-namespaces
-kubectl describe secret/SECRET_NAME
-# should have two fields in Data: token and ca.crt
-```
+6. Bring up the cluster
 
     - start the kubernetes control plane servcies
-    - delete the secrets
     - start the kubernetes nodes services
+    - start dns service. SkyDns controller and service
 
+```
+./setup/utils/kube-up.sh
+
+kubectl create -f setup/dns/kube-system-namespace.yaml
+kubectl create -f setup/dns/dns-controller.yaml
+kubectl create -f setup/dns/dns-service.yaml
+```
 
 * Generate user KUBECTL's Kubeconfig
 
@@ -206,13 +212,6 @@ update the environment variable values as needed.
 
 ```bash
 ./setup/utils/kube-config.sh
-```
-
-9. Start dns service. SkyDns controller and service
-
-```bash
-kubectl create -f setup/dns/dns-controller.yaml
-kubectl create -f setup/dns/dns-service.yaml
 ```
 
 ## TL; DR Start Guide
@@ -304,6 +303,18 @@ kubectl cluster-info
 # Wait for `kube-apiserver.service` fully up and running
 fleetctl start units/kube-controller-manager.service
 fleetctl start units/kube-scheduler.service
+```
+
+Avoid the race condition on secret keys creation, should have two fields in Data: token and ca.crt
+
+```bash
+kubectl get secret --all-namespaces
+
+kubectl delete secret/SECRET_NAME
+
+kubectl get secret --all-namespaces
+
+kubectl describe secret/SECRET_NAME
 ```
 
 Deploy SkyDNS.

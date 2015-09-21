@@ -99,6 +99,8 @@ write_files:
       ETCD_SERVER_PORT_1=2379
       ETCD_SERVER_PORT_2=4001
       CORS_ALLOWED_ORIGINS=.*
+      AUTHORIZATION_MODE=AlwaysAllow
+      AUTHORIZATION_POLICY_FILE=/srv/kubernetes/policy.jsonl
       ADMISSION_CONTROL=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota
       CLUSTER_NAME=kube-rocks
       CLUSTER_CA_FILE_PATH=/srv/kubernetes/ca.crt
@@ -134,7 +136,7 @@ write_files:
     permissions: 0644
     owner: root
     content: |
-      {"user":"admin"}
+      {"user":"kube-admin"}
       {"user":"scheduler", "readonly": true, "resource": "pods"}
       {"user":"scheduler", "resource": "bindings"}
       {"user":"kubelet",  "readonly": true, "resource": "pods"}

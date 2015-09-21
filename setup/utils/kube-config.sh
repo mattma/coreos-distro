@@ -8,6 +8,8 @@ CLI_CERT=./setup/tmp/kubernetes/kubecfg.cert
 CLI_KEY=./setup/tmp/kubernetes/kubecfg.key
 KUBELET_CERT=./setup/tmp/kubernetes/kubelet.cert
 KUBELET_KEY=./setup/tmp/kubernetes/kubelet.key
+KUBE_PROXY_CERT=
+KUBE_PROXY_KEY=
 CONTEXT_NAME=rocks
 
 # setup the cluster
@@ -18,11 +20,18 @@ echo ''
 if [ -n "$1" ] && [ $1 = 'KUBELET' ]
 then
   echo 'Setup KUBELET config'
-  USER=admin
+  USER=kubelet
   kubectl config set-credentials $USER --certificate-authority=$CA_CERT --client-certificate=$KUBELET_CERT --client-key=$KUBELET_KEY --embed-certs=true
+
+elif [ -n "$1" ] && [ $1 = 'KUBE_PROXY' ]
+then
+  echo 'Setup KUBE_PROXY config'
+  USER=kube-proxy
+  kubectl config set-credentials $USER --certificate-authority=$CA_CERT --client-certificate=$KUBE_PROXY_CERT --client-key=$KUBE_PROXY_KEY --embed-certs=true
+
 else
   echo 'Setup CLI config'
-  USER=kubelet
+  USER=kube-admin
   kubectl config set-credentials $USER --certificate-authority=$CA_CERT --client-certificate=$CLI_CERT --client-key=$CLI_KEY --embed-certs=true
 fi
 echo ''
