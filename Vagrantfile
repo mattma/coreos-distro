@@ -62,7 +62,7 @@ $Vagrantfile_api_version = "2"
 # load up cloud-init files, and startup bash scripts
 $master_data_path = File.join(File.dirname(__FILE__), "setup/cloud-init/master-data")
 $node_data_path = File.join(File.dirname(__FILE__), "setup/cloud-init/node-data")
-$etcd_start_script_path = File.join(File.dirname(__FILE__), "setup/etcd-start")
+$etcd_start_script_path = File.join(File.dirname(__FILE__), "setup/utils/etcd-start")
 
 # Use old vb_xxx config variables when set
 def vm_gui

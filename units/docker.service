@@ -1,17 +1,20 @@
 [Unit]
 Description=Docker Application Container Engine
-Documentation=http://docs.docker.io
+Documentation=http://docs.docker.io,https://docs.docker.com/articles/networking/
 Requires=flanneld.service
 After=flanneld.service
 
 [Service]
 EnvironmentFile=/run/flannel/subnet.env
 ExecStartPre=/bin/mount --make-rprivate /
-ExecStart=/usr/bin/docker -d --bip=${FLANNEL_SUBNET} --mtu=${FLANNEL_MTU} -H fd://
+ExecStart=/usr/bin/docker daemon \
+  --bip=${FLANNEL_SUBNET} \
+  --mtu=${FLANNEL_MTU} \
+  -H fd://
 
 [Install]
 WantedBy=multi-user.target
 
-[X-Fleet]
+[X-Fleet]+
 Global=true
 MachineMetadata=role=node
